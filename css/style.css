@@ -1,0 +1,206 @@
+/* 基本デザイン */
+body {
+    font-family: sans-serif;
+    margin: 0; padding: 0;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #b3e5fc;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* レイアウト：メインコンテンツとサイドバーの幅設定 */
+.container {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    gap: 40px;
+}
+
+main { flex: 3; }
+aside { flex: 1; border-left: 1px solid #ddd; padding-left: 20px; }
+
+/* ナビゲーションバーの固定設定 */
+#nav-placeholder {
+    position: sticky; /* 画面上部に張り付く */
+    top: 0;
+    z-index: 1000;    /* 記事より上に表示 */
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between; /* タブを左、ボタンを右へ */
+    align-items: center;
+    background: #e1f5fe;
+    border-bottom: 2px solid #333;
+}
+
+/* タブ部分のスタイル */
+.tab-menu { display: flex; }
+.tab-item { 
+    padding: 10px 20px; 
+    text-decoration: none; 
+    color: #555; 
+    font-weight: bold; 
+    border-right: 1px solid #b3e5fc; 
+}
+.tab-item:hover { background: #b3e5fc; }
+
+/* ハンバーガーボタン(☰)の見た目 */
+.menu-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0 15px;
+    color: #333;
+}
+
+/* サイドメニュー本体：初期状態は画面の右外(-35%)に隠す */
+.side-menu {
+    position: fixed;
+    top: 0;
+    right: -35%; 
+    width: 33%;      /* PCでは画面の約1/3の幅 */
+    height: 100vh;   /* 画面の高さ一杯 */
+    background: white;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+    z-index: 2000;
+    transition: right 0.3s ease; /* 0.3秒かけてスライド */
+    display: flex;
+    flex-direction: column;
+}
+
+/* JSで .open クラスがついた時に画面内(right:0)へ移動 */
+.side-menu.open {
+    right: 0;
+}
+
+/* メニューが開いた時の背景を暗くする効果 */
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1500;
+    display: none; /* 通常は消しておく */
+}
+.menu-overlay.open {
+    display: block;
+}
+
+/* メニュー内のヘッダーとリンク */
+.side-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #b3e5fc;
+}
+.close-btn { font-size: 30px; background: none; border: none; cursor: pointer; }
+
+.side-menu-links a {
+    display: block;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #333;
+    border-bottom: 1px solid #eee;
+}
+.side-menu-links a:hover { background: #f1f1f1; }
+
+/* スムーズスクロールと見出しの余白設定 */
+html { scroll-behavior: smooth; }
+.problem-content { 
+    scroll-margin-top: 60px; /* タブに隠れないよう、リンク先に余白を作る */
+    padding: 20px 0; 
+    border-bottom: 1px solid #eee; 
+}
+
+/* モバイル対応：画面が狭いときはメニュー幅を広くする */
+@media (max-width: 768px) {
+    .side-menu {
+        width: 70%;
+        right: -75%;
+    }
+}
+
+/* インデックスページ用の追加スタイル */
+
+.post-list h2 {
+    border-left: 5px solid #b3e5fc;
+    padding-left: 15px;
+    margin-bottom: 30px;
+}
+
+.post-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.post-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.post-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    padding: 20px;
+}
+
+.post-date {
+    font-size: 0.85em;
+    color: #888;
+}
+
+.post-title {
+    margin: 10px 0;
+    color: #333;
+    font-size: 1.4em;
+}
+
+.post-excerpt {
+    font-size: 0.95em;
+    color: #666;
+    line-height: 1.5;
+}
+
+.sidebar-section {
+    margin-top: 40px;
+}
+
+.sidebar-section h4 {
+    border-bottom: 2px solid #b3e5fc;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+.sidebar-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar-section ul li {
+    margin-bottom: 10px;
+}
+
+.sidebar-section ul li a {
+    text-decoration: none;
+    color: #555;
+    transition: color 0.2s;
+}
+
+.sidebar-section ul li a:hover {
+    color: #03a9f4;
+}

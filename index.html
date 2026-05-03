@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>競技プログラミング 備忘録</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 共通パーツを注入するためのスクリプト -->
+    <script src="js/common.js" defer></script>
+</head>
+<body>
+
+    <!-- common.js からヘッダーが注入されます -->
+    <div id="header-placeholder"></div>
+
+    <!-- common.js からナビゲーション（タブ＆メニュー）が注入されます -->
+    <div id="nav-placeholder"></div>
+
+    <div class="container">
+        <!-- メインコンテンツ：記事一覧 -->
+        <main>
+            <section class="post-list">
+                <h2>最新の記事</h2>
+
+                <!-- 記事カード 1 -->
+                <article class="post-card">
+                    <a href="posts/ABC456.html" class="post-link">
+                        <div class="post-content">
+                            <span class="post-date">2026.04.15</span>
+                            <h3 class="post-title">ABC 456 解説（A-D問題）</h3>
+                            <p class="post-excerpt">基礎的なアルゴリズムが詰まっているような問題群でした。E問題もいつか解けるようになりたいな。。。</p>
+                        </div>
+                    </a>
+                </article>
+            </section>
+        </main>
+
+        <!-- サイドバー -->
+        <aside>
+            <!-- common.js からプロフィールが注入されます -->
+            <div id="profile-placeholder"></div>
+
+            <div class="sidebar-section">
+                <h4>リンク</h4>
+                <ul>
+                    <li><a href="https://atcoder.jp" target="_blank">AtCoder</a></li>
+                    <li><a href="https://github.com" target="_blank">GitHub</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+    <!-- common.js からフッターが注入されます -->
+    <div id="footer-placeholder"></div>
+
+</body>
+</html>

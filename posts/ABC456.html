@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>ABC456 解説 - 競技プログラミング 備忘録</title>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <style>
         /* 図解用の追加スタイル */
         .dice-sim {
@@ -87,6 +87,14 @@
             margin: 2px;
             background: #fff;
         }
+
+        /* ABC456_2.html の <style> 内に追加[cite: 2] */
+        html {
+            scroll-padding-top: 60px;
+            /* タブの高さ分だけ余白を作る（数値は調整してください） */
+            scroll-behavior: smooth;
+            /* スムーズにスクロールさせる（お好みで） */
+        }
     </style>
 
     <script>
@@ -100,27 +108,23 @@
 </head>
 
 <body>
-    <header>
-        <h1>競技プログラミング 備忘録</h1>
-    </header>
+    <!-- ヘッダーの器 -->
+    <div id="header-placeholder"></div>
 
-    <nav class="tab-menu">
-        <a href="#section-a" class="tab-item">A</a>
-        <a href="#section-b" class="tab-item">B</a>
-        <a href="#section-c" class="tab-item">C</a>
-        <a href="#section-d" class="tab-item">D</a>
-        <a href="#thoughts" class="tab-item">感想</a>
-    </nav>
+    <!-- ナビゲーションの器 -->
+    <div id="nav-placeholder"></div>
 
     <div class="container">
         <main>
             <article id="abc456">
-                <h2><a href="https://atcoder.jp/contests/abc456" target="_blank" rel="noopener noreferrer">ABC 456</a></h2>
+                <h2><a href="https://atcoder.jp/contests/abc456" target="_blank" rel="noopener noreferrer">ABC 456</a>
+                </h2>
                 <p>writer: Murakami1704</p>
 
                 <!-- A問題セクション -->
                 <section id="section-a" class="problem-content">
-                    <h2><a href="https://atcoder.jp/contests/abc456/tasks/abc456_a" target="_blank" rel="noopener noreferrer">A - Dice</a></h2>
+                    <h2><a href="https://atcoder.jp/contests/abc456/tasks/abc456_a" target="_blank"
+                            rel="noopener noreferrer">A - Dice</a></h2>
                     <p>配点 : 100 点</p>
 
                     <div class="problem-statement">
@@ -222,8 +226,10 @@
                     <hr>
 
                     <div class="code-block">
-                        <h3><a href="https://atcoder.jp/contests/abc456/submissions/75407832" target="_blank" rel="noopener noreferrer">ソースコード (C++)</a></h3>
-                        <pre style="background: #272822; color: #f8f8f2; padding: 15px; border-radius: 5px; overflow-x: auto;"><code>#include &lt;bits/stdc++.h&gt;
+                        <h3><a href="https://atcoder.jp/contests/abc456/submissions/75407832" target="_blank"
+                                rel="noopener noreferrer">ソースコード (C++)</a></h3>
+                        <pre
+                            style="background: #272822; color: #f8f8f2; padding: 15px; border-radius: 5px; overflow-x: auto;"><code>#include &lt;bits/stdc++.h&gt;
 using namespace std;
 
 int main(void){
@@ -248,7 +254,8 @@ int main(void){
                 <!-- B問題セクション -->
                 <section id="section-b" class="problem-content">
                     <div class="problem-header">
-                        <h2><a href="https://atcoder.jp/contests/abc456/tasks/abc456_b" target="_blank" rel="noopener noreferrer">B - 456</a></h2>
+                        <h2><a href="https://atcoder.jp/contests/abc456/tasks/abc456_b" target="_blank"
+                                rel="noopener noreferrer">B - 456</a></h2>
                     </div>
                     <p>配点 : 200 点</p>
 
@@ -276,7 +283,8 @@ int main(void){
 1 2 3 4 5 6
 1 2 3 4 5 6</pre>
                                 <strong>出力例 1</strong>
-                                <pre style="background: #fdfdfd; border: 1px solid #ccc; padding: 10px;">0.0277777778</pre>
+                                <pre
+                                    style="background: #fdfdfd; border: 1px solid #ccc; padding: 10px;">0.0277777778</pre>
                             </div>
                             <div style="flex: 1; min-width: 250px;">
                                 <strong>入力例 2</strong>
@@ -284,7 +292,8 @@ int main(void){
 4 4 5 5 6 6
 6 5 4 4 5 6</pre>
                                 <strong>出力例 2</strong>
-                                <pre style="background: #fdfdfd; border: 1px solid #ccc; padding: 10px;">0.2222222222</pre>
+                                <pre
+                                    style="background: #fdfdfd; border: 1px solid #ccc; padding: 10px;">0.2222222222</pre>
                             </div>
                         </div>
                     </div>
@@ -301,40 +310,105 @@ int main(void){
                         <h4>解法：全探索</h4>
                         <p>
                             各サイコロは 6 面なので、3 つのサイコロの目の出方は全部で $6 \times 6 \times 6 = 216$ 通りです。<br>
-                            この 216 通りをすべて調べ、条件（4, 5, 6 が 1 つずつ出る）を満たす数を <code>count</code> とすると、答えは <strong>count / 216</strong> となります。
+                            この 216 通りをすべて調べ、条件（4, 5, 6 が 1 つずつ出る）を満たす数を <code>count</code> とすると、答えは <strong>count /
+                                216</strong> となります。
                         </p>
 
                         <!-- 画像1枚目の内容に基づく図解 -->
                         <div style="background: #fff; padding: 15px; border: 1px dashed #999; margin-bottom: 20px;">
                             <div class="dice-sim">
                                 <div>
-                                    <div class="dice-row"><div class="dice-face selected">1</div><div class="dice-face">2</div><div class="dice-face">3</div><div class="dice-face">4</div><div class="dice-face">5</div><div class="dice-face">6</div></div>
-                                    <div class="dice-row"><div class="dice-face selected">1</div><div class="dice-face">2</div><div class="dice-face">3</div><div class="dice-face">4</div><div class="dice-face">5</div><div class="dice-face">6</div></div>
-                                    <div class="dice-row"><div class="dice-face selected">1</div><div class="dice-face">2</div><div class="dice-face">3</div><div class="dice-face">4</div><div class="dice-face">5</div><div class="dice-face">6</div></div>
+                                    <div class="dice-row">
+                                        <div class="dice-face selected">1</div>
+                                        <div class="dice-face">2</div>
+                                        <div class="dice-face">3</div>
+                                        <div class="dice-face">4</div>
+                                        <div class="dice-face">5</div>
+                                        <div class="dice-face">6</div>
+                                    </div>
+                                    <div class="dice-row">
+                                        <div class="dice-face selected">1</div>
+                                        <div class="dice-face">2</div>
+                                        <div class="dice-face">3</div>
+                                        <div class="dice-face">4</div>
+                                        <div class="dice-face">5</div>
+                                        <div class="dice-face">6</div>
+                                    </div>
+                                    <div class="dice-row">
+                                        <div class="dice-face selected">1</div>
+                                        <div class="dice-face">2</div>
+                                        <div class="dice-face">3</div>
+                                        <div class="dice-face">4</div>
+                                        <div class="dice-face">5</div>
+                                        <div class="dice-face">6</div>
+                                    </div>
                                 </div>
                                 <span>→ カウントはふえない</span>
                             </div>
                             <div class="arrow-down">⋮</div>
                             <div class="dice-sim">
                                 <div>
-                                    <div class="dice-row"><div class="dice-face">1</div><div class="dice-face">2</div><div class="dice-face">3</div><div class="dice-face selected">4</div><div class="dice-face">5</div><div class="dice-face">6</div></div>
-                                    <div class="dice-row"><div class="dice-face">1</div><div class="dice-face">2</div><div class="dice-face">3</div><div class="dice-face">4</div><div class="dice-face selected">5</div><div class="dice-face">6</div></div>
-                                    <div class="dice-row"><div class="dice-face">1</div><div class="dice-face">2</div><div class="dice-face">3</div><div class="dice-face">4</div><div class="dice-face">5</div><div class="dice-face selected">6</div></div>
+                                    <div class="dice-row">
+                                        <div class="dice-face">1</div>
+                                        <div class="dice-face">2</div>
+                                        <div class="dice-face">3</div>
+                                        <div class="dice-face selected">4</div>
+                                        <div class="dice-face">5</div>
+                                        <div class="dice-face">6</div>
+                                    </div>
+                                    <div class="dice-row">
+                                        <div class="dice-face">1</div>
+                                        <div class="dice-face">2</div>
+                                        <div class="dice-face">3</div>
+                                        <div class="dice-face">4</div>
+                                        <div class="dice-face selected">5</div>
+                                        <div class="dice-face">6</div>
+                                    </div>
+                                    <div class="dice-row">
+                                        <div class="dice-face">1</div>
+                                        <div class="dice-face">2</div>
+                                        <div class="dice-face">3</div>
+                                        <div class="dice-face">4</div>
+                                        <div class="dice-face">5</div>
+                                        <div class="dice-face selected">6</div>
+                                    </div>
                                 </div>
                                 <span>→ カウントを増やす</span>
                             </div>
                             <div class="arrow-down">⋮</div>
                             <div class="dice-sim">
                                 <div>
-                                    <div class="dice-row"><div class="dice-face">1</div><div class="dice-face">2</div><div class="dice-face">3</div><div class="dice-face">4</div><div class="dice-face selected">5</div><div class="dice-face">6</div></div>
-                                    <div class="dice-row"><div class="dice-face">1</div><div class="dice-face">2</div><div class="dice-face">3</div><div class="dice-face selected">4</div><div class="dice-face">5</div><div class="dice-face">6</div></div>
-                                    <div class="dice-row"><div class="dice-face">1</div><div class="dice-face">2</div><div class="dice-face">3</div><div class="dice-face">4</div><div class="dice-face">5</div><div class="dice-face selected">6</div></div>
+                                    <div class="dice-row">
+                                        <div class="dice-face">1</div>
+                                        <div class="dice-face">2</div>
+                                        <div class="dice-face">3</div>
+                                        <div class="dice-face">4</div>
+                                        <div class="dice-face selected">5</div>
+                                        <div class="dice-face">6</div>
+                                    </div>
+                                    <div class="dice-row">
+                                        <div class="dice-face">1</div>
+                                        <div class="dice-face">2</div>
+                                        <div class="dice-face">3</div>
+                                        <div class="dice-face selected">4</div>
+                                        <div class="dice-face">5</div>
+                                        <div class="dice-face">6</div>
+                                    </div>
+                                    <div class="dice-row">
+                                        <div class="dice-face">1</div>
+                                        <div class="dice-face">2</div>
+                                        <div class="dice-face">3</div>
+                                        <div class="dice-face">4</div>
+                                        <div class="dice-face">5</div>
+                                        <div class="dice-face selected">6</div>
+                                    </div>
                                 </div>
                                 <span>→ カウントを増やす</span>
                             </div>
                         </div>
 
-                        <div style="background: #fff3e0; padding: 15px; border-left: 5px solid #ff9800; margin: 10px 0;">
+                        <div
+                            style="background: #fff3e0; padding: 15px; border-left: 5px solid #ff9800; margin: 10px 0;">
                             <strong>実装のポイント：</strong><br>
                             <code>count / 216</code> と書くと、<code>count</code> が int型の場合、結果が 0 になってしまうことがあります。<br>
                             <strong><code>count / 216.0</code></strong> と書くことで、double型として計算され、正しい小数を得ることができます。
@@ -362,12 +436,21 @@ int main(void){
                                     <div>temp: [ 5 | 4 | 6 ]</div>
                                     <div class="arrow-down">↓</div>
                                     <div class="array-box">
-                                        <div class="array-item">0<div class="index-label">1</div></div>
-                                        <div class="array-item">0<div class="index-label">2</div></div>
-                                        <div class="array-item">0<div class="index-label">3</div></div>
-                                        <div class="array-item" style="background:#fff9c4">1<div class="index-label">4</div></div>
-                                        <div class="array-item" style="background:#fff9c4">1<div class="index-label">5</div></div>
-                                        <div class="array-item" style="background:#fff9c4">1<div class="index-label">6</div></div>
+                                        <div class="array-item">0<div class="index-label">1</div>
+                                        </div>
+                                        <div class="array-item">0<div class="index-label">2</div>
+                                        </div>
+                                        <div class="array-item">0<div class="index-label">3</div>
+                                        </div>
+                                        <div class="array-item" style="background:#fff9c4">1<div class="index-label">4
+                                            </div>
+                                        </div>
+                                        <div class="array-item" style="background:#fff9c4">1<div class="index-label">5
+                                            </div>
+                                        </div>
+                                        <div class="array-item" style="background:#fff9c4">1<div class="index-label">6
+                                            </div>
+                                        </div>
                                     </div>
                                     <p><small>ここが 1 かどうかで判断</small></p>
                                 </div>
@@ -396,7 +479,7 @@ int main(void){
                             </div>
                         </div>
                         <p>「4, 5, 6 が 1 つずつ出る」という条件を判定するための主な実装例です：</p>
-                        
+
                         <div class="code-examples">
                             <h5>1. ソート法（汎用的・推奨）</h5>
                             <pre style="background: #272822; color: #f8f8f2; padding: 10px; border-radius: 5px;"><code>sort(t.begin(), t.end());
@@ -426,15 +509,17 @@ if((v1 == 4 && v2 == 5 && v3 == 6) || (v1 == 4 && v2 == 6 && v3 == 5) ||
     count++;
 }</code></pre>
                         </div>
-                        
+
                         <p>使用アルゴリズム：<strong>全探索</strong></p>
                     </div>
 
                     <hr>
 
                     <div class="code-block">
-                        <h3><a href="https://atcoder.jp/contests/abc456/submissions/75414605" target="_blank" rel="noopener noreferrer">ソースコード (C++)</a></h3>
-                        <pre style="background: #272822; color: #f8f8f2; padding: 15px; border-radius: 5px; overflow-x: auto;"><code>#include &lt;bits/stdc++.h&gt;
+                        <h3><a href="https://atcoder.jp/contests/abc456/submissions/75414605" target="_blank"
+                                rel="noopener noreferrer">ソースコード (C++)</a></h3>
+                        <pre
+                            style="background: #272822; color: #f8f8f2; padding: 15px; border-radius: 5px; overflow-x: auto;"><code>#include &lt;bits/stdc++.h&gt;
 using namespace std;
 
 int main(void){
@@ -477,14 +562,16 @@ int main(void){
                 <!-- C問題セクション -->
                 <section id="section-c" class="problem-content">
                     <div class="problem-header">
-                        <h2><a href="https://atcoder.jp/contests/abc456/tasks/abc456_c" target="_blank" rel="noopener noreferrer">C - Not Adjacent</a></h2>
+                        <h2><a href="https://atcoder.jp/contests/abc456/tasks/abc456_c" target="_blank"
+                                rel="noopener noreferrer">C - Not Adjacent</a></h2>
                     </div>
                     <p>配点 : 300 点</p>
 
                     <div class="problem-statement">
                         <h3>問題文</h3>
                         <p>
-                            a, b, c からなる文字列 $S$ が与えられます。 $S$ の空でない部分文字列であって、<strong>同じ文字が隣り合わないもの</strong>の個数を 998244353 で割った余りを求めてください。
+                            a, b, c からなる文字列 $S$ が与えられます。 $S$ の空でない部分文字列であって、<strong>同じ文字が隣り合わないもの</strong>の個数を 998244353
+                            で割った余りを求めてください。
                         </p>
                         <p>※ 2 つの部分文字列が文字列として一致しても、取り出す位置が異なるならば区別します。</p>
 
@@ -514,7 +601,8 @@ int main(void){
                             </div>
                             <div style="flex: 1;">
                                 <strong>入力例 2</strong>
-                                <pre style="background: #fdfdfd; border: 1px solid #ccc; padding: 10px;">cabcabcbc...（略）</pre>
+                                <pre
+                                    style="background: #fdfdfd; border: 1px solid #ccc; padding: 10px;">cabcabcbc...（略）</pre>
                                 <strong>出力例 2</strong>
                                 <pre style="background: #fdfdfd; border: 1px solid #ccc; padding: 10px;">760</pre>
                             </div>
@@ -525,17 +613,19 @@ int main(void){
 
                     <div class="explanation">
                         <h3>解説</h3>
-                        
+
                         <h4>1. 区間分割の考え方</h4>
                         <p>
                             「部分文字列」は元の文字列から<strong>連続した範囲</strong>を抜き出したものです。
-                            もし元の文字列に <code>aa</code> や <code>bb</code> のように同じ文字が隣り合っている箇所があれば、<strong>その境界をまたいで抜き出した部分文字列は、必ず「同じ文字が隣り合う」ことになり、条件を満たしません</strong>。
+                            もし元の文字列に <code>aa</code> や <code>bb</code>
+                            のように同じ文字が隣り合っている箇所があれば、<strong>その境界をまたいで抜き出した部分文字列は、必ず「同じ文字が隣り合う」ことになり、条件を満たしません</strong>。
                         </p>
                         <p>
                             そのため、同じ文字が連続する地点を「区切り」として文字列を分割し、それぞれの独立した各区間内で条件を満たす部分文字列の数を計算します。
                         </p>
 
-                        <div style="background: #f1f8e9; padding: 15px; border-left: 5px solid #4caf50; font-family: monospace; margin: 20px 0;">
+                        <div
+                            style="background: #f1f8e9; padding: 15px; border-left: 5px solid #4caf50; font-family: monospace; margin: 20px 0;">
                             例：abbc &emsp;→ [ ab ] | [ bc ] <br>
                             <small>（bとbの間で分割。ここをまたぐ「abb」などは数えません）</small>
                         </div>
@@ -544,65 +634,76 @@ int main(void){
                         <p>
                             隣り合う重複がない長さ $n$ の区間において、そこから取り出せる部分文字列の総数は、以下の図のように<strong>三角数</strong>の形で一般化できます。
                         </p>
-                        
-                        <div style="display: flex; flex-direction: column; align-items: center; background: #fff; border: 1px solid #eee; padding: 20px; margin: 20px 0;">
+
+                        <div
+                            style="display: flex; flex-direction: column; align-items: center; background: #fff; border: 1px solid #eee; padding: 20px; margin: 20px 0;">
                             <strong>【図解：長さ $n$ の区間から取れる部分文字列】</strong>
-                            <div style="margin-top: 15px; font-family: monospace; line-height: 1.2; text-align: center;">
+                            <div
+                                style="margin-top: 15px; font-family: monospace; line-height: 1.2; text-align: center;">
                                 <!-- 三角形のレイアウト -->
                                 <div style="color: #1976d2;">[○] [○] [○] [○] … [○]</div>
                                 <div style="font-size: 0.8em; margin-bottom: 10px;">（長さ1 の部分文字列 $n$ 個）</div>
-                                
+
                                 <div style="color: #388e3c;">[○ ○] [○ ○] … [○ ○]</div>
                                 <div style="font-size: 0.8em; margin-bottom: 10px;">（長さ2 の部分文字列 $n-1$ 個）</div>
-                                
+
                                 <div style="color: #f57c00;">[○ ○ ○] … [○ ○ ○]</div>
                                 <div style="font-size: 0.8em; margin-bottom: 10px;">（長さ3 の部分文字列 $n-2$ 個）</div>
 
                                 <div>⋮</div>
-                                
+
                                 <div style="color: #d32f2f; margin-top: 10px;">[○ ○ ○ ○ … ○]</div>
                                 <div style="font-size: 0.8em;">（長さ$n$ の部分文字列 1 個）</div>
                             </div>
-                            
-                            <div style="margin-top: 20px; border-top: 1px solid #ddd; padding-top: 10px; width: 80%; text-align: center;">
+
+                            <div
+                                style="margin-top: 20px; border-top: 1px solid #ddd; padding-top: 10px; width: 80%; text-align: center;">
                                 <strong>合計：</strong> $n + (n-1) + (n-2) + \dots + 1 = \mathbf{\frac{n(n+1)}{2}}$
                             </div>
                         </div>
 
-                        <div style="display: flex; flex-direction: column; align-items: center; background: #fff; border: 1px solid #eee; padding: 20px; margin: 20px 0;">
+                        <div
+                            style="display: flex; flex-direction: column; align-items: center; background: #fff; border: 1px solid #eee; padding: 20px; margin: 20px 0;">
                             <strong>【図解：長さ $n$ の区間から取れる部分文字列の一例】</strong>
-                            <div style="margin-top: 15px; font-family: monospace; line-height: 1.2; text-align: center;">
+                            <div
+                                style="margin-top: 15px; font-family: monospace; line-height: 1.2; text-align: center;">
                                 <!-- 三角形のレイアウト -->
                                 <div style="color: #1976d2;">[a] [b] [c] [a] [b] [c]</div>
                                 <div style="font-size: 0.8em; margin-bottom: 10px;">（長さ 1 の部分文字列 6 個）</div>
-                                
+
                                 <div style="color: #387b8e;">[ab] [bc] [ca] [ab] [bc]</div>
                                 <div style="font-size: 0.8em; margin-bottom: 10px;">（長さ 2 の部分文字列 5 個）</div>
-                                
+
                                 <div style="color: #388e3c;">[abc] [bca] [cab] [abc]</div>
                                 <div style="font-size: 0.8em; margin-bottom: 10px;">（長さ 3 の部分文字列 4 個）</div>
 
                                 <div style="color: #9bf500;">[abc] [bca] [cab] [abc]</div>
                                 <div style="font-size: 0.8em; margin-bottom: 10px;">（長さ 3 の部分文字列 4 個）</div>
-                                
+
                                 <div style="color: #f57c00;">[abcab] [bcabc]</div>
                                 <div style="font-size: 0.8em; margin-bottom: 10px;">（長さ 5 の部分文字列 2 個）</div>
 
                                 <div style="color: #d32f2f;">[abcabc]</div>
                                 <div style="font-size: 0.8em; margin-bottom: 10px;">（長さ 6 の部分文字列 1 個）</div>
                             </div>
-                            
-                            <div style="margin-top: 20px; border-top: 1px solid #ddd; padding-top: 10px; width: 80%; text-align: center;">
+
+                            <div
+                                style="margin-top: 20px; border-top: 1px solid #ddd; padding-top: 10px; width: 80%; text-align: center;">
                                 <strong>合計：</strong> $\mathbf{\frac{6(6+1)}{2}} = 21$
                             </div>
                         </div>
 
                         <h4>3. シミュレーション：区間の抽出</h4>
                         <p>文字列 <code>abbcabbcabcc</code> を左から走査し、同じ文字が隣り合った瞬間にそれまでの文字数を記録します。</p>
-                        
+
                         <div style="background: #fafafa; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
-                            <div style="font-size: 1.2em; letter-spacing: 2px; margin-bottom: 10px; text-align: center;">
-                                <span style="border-bottom: 3px solid #d32f2f;">a b</span><b style="color: #ccc;">|</b><span style="border-bottom: 3px solid #1976d2;">b c a b</span><b style="color: #ccc;">|</b><span style="border-bottom: 3px solid #388e3c;">b c a b c</span><b style="color: #ccc;">|</b><span style="border-bottom: 3px solid #f57c00;">c</span>
+                            <div
+                                style="font-size: 1.2em; letter-spacing: 2px; margin-bottom: 10px; text-align: center;">
+                                <span style="border-bottom: 3px solid #d32f2f;">a b</span><b
+                                    style="color: #ccc;">|</b><span style="border-bottom: 3px solid #1976d2;">b c a
+                                    b</span><b style="color: #ccc;">|</b><span
+                                    style="border-bottom: 3px solid #388e3c;">b c a b c</span><b
+                                    style="color: #ccc;">|</b><span style="border-bottom: 3px solid #f57c00;">c</span>
                             </div>
                             <ul style="font-size: 0.9em; margin-bottom: 0;">
                                 <li>2文字目と3文字目の <b>'b'</b> が同じなので分割 → 長さ <b>2</b> を記録</li>
@@ -618,11 +719,13 @@ int main(void){
 
                         <p>使用アルゴリズム：<strong>しゃくとり法</strong></p>
 
-                    <hr>
+                        <hr>
 
-                    <div class="code-block">
-                        <h3><a href="https://atcoder.jp/contests/abc456/submissions/75430163" target="_blank" rel="noopener noreferrer">ソースコード (C++)</a></h3>
-                        <pre style="background: #272822; color: #f8f8f2; padding: 15px; border-radius: 5px; overflow-x: auto;"><code>#include &lt;bits/stdc++.h&gt;
+                        <div class="code-block">
+                            <h3><a href="https://atcoder.jp/contests/abc456/submissions/75430163" target="_blank"
+                                    rel="noopener noreferrer">ソースコード (C++)</a></h3>
+                            <pre
+                                style="background: #272822; color: #f8f8f2; padding: 15px; border-radius: 5px; overflow-x: auto;"><code>#include &lt;bits/stdc++.h&gt;
 using namespace std;
 
 int main(void){
@@ -657,7 +760,7 @@ int main(void){
     cout << ans << endl;
     return 0;
 }</code></pre>
-                    </div>
+                        </div>
                 </section>
 
 
@@ -665,14 +768,16 @@ int main(void){
                 <!-- D問題セクション -->
                 <section id="section-d" class="problem-content">
                     <div class="problem-header">
-                        <h2><a href="https://atcoder.jp/contests/abc456/tasks/abc456_d" target="_blank" rel="noopener noreferrer">D - Not Adjacent 2</a></h2>
+                        <h2><a href="https://atcoder.jp/contests/abc456/tasks/abc456_d" target="_blank"
+                                rel="noopener noreferrer">D - Not Adjacent 2</a></h2>
                     </div>
                     <p>配点 : 400 点</p>
 
                     <div class="problem-statement">
                         <h3>問題文</h3>
                         <p>
-                            a, b, c からなる文字列 $S$ が与えられます。 $S$ の空でない<strong>部分列</strong>であって、同じ文字が隣り合わないものの個数を 998244353 で割った余りを求めてください。
+                            a, b, c からなる文字列 $S$ が与えられます。 $S$ の空でない<strong>部分列</strong>であって、同じ文字が隣り合わないものの個数を 998244353
+                            で割った余りを求めてください。
                         </p>
                         <p><small>※部分列とは、元の文字列から0文字以上を取り除き、残りを順序を変えずに連結したものです（連続していなくても良い）。</small></p>
 
@@ -702,7 +807,8 @@ int main(void){
                             </div>
                             <div style="flex: 1;">
                                 <strong>入力例 2</strong>
-                                <pre style="background: #fdfdfd; border: 1px solid #ccc; padding: 10px;">cabcabcbcaccacbcbcaabacbacaabccacbccbcacbacbacabcacabcaccaaaaabababcbabacaccabbcacbcbcbcababcbcbabca</pre>
+                                <pre
+                                    style="background: #fdfdfd; border: 1px solid #ccc; padding: 10px;">cabcabcbcaccacbcbcaabacbacaabccacbccbcacbacbacabcacabcaccaaaaabababcbabacaccabbcacbcbcbcababcbcbabca</pre>
                                 <strong>出力例 2</strong>
                                 <pre style="background: #fdfdfd; border: 1px solid #ccc; padding: 10px;">378217423</pre>
                             </div>
@@ -713,7 +819,7 @@ int main(void){
 
                     <div class="explanation">
                         <h3>解説</h3>
-                        
+
                         <h4>1. 状態の定義とDPの考え方</h4>
                         <p>
                             C問題との最大の違いは、文字を飛ばして選べる「部分列」である点です。
@@ -722,7 +828,8 @@ int main(void){
                         <p>
                             次のように状態を保存していくことで、効率的に計算できます。
                         </p>
-                        <div style="background: #fff3e0; padding: 15px; border-left: 5px solid #ff9800; margin: 20px 0;">
+                        <div
+                            style="background: #fff3e0; padding: 15px; border-left: 5px solid #ff9800; margin: 20px 0;">
                             <strong>DPの状態：</strong><br>
                             <code>dp[a]</code> : 最後が 'a' で終わる、条件を満たす部分列の総数<br>
                             <code>dp[b]</code> : 最後が 'b' で終わる、条件を満たす部分列の総数<br>
@@ -731,9 +838,10 @@ int main(void){
 
                         <h4>2. 遷移のシミュレーション（abbc の場合）</h4>
                         <p>各文字に到達したとき、それ以前の「自分と異なる文字で終わる部分列」の末尾に自分をくっつけることができます。</p>
-                        
+
                         <div style="overflow-x: auto; margin: 20px 0;">
-                            <table style="width: 100%; border-collapse: collapse; text-align: center; border: 1px solid #ddd;">
+                            <table
+                                style="width: 100%; border-collapse: collapse; text-align: center; border: 1px solid #ddd;">
                                 <tr style="background: #f8f9fa;">
                                     <th style="border: 1px solid #ddd; padding: 8px;">文字番目</th>
                                     <th style="border: 1px solid #ddd; padding: 8px;">文字</th>
@@ -748,7 +856,8 @@ int main(void){
                                     <td style="border: 1px solid #ddd; padding: 8px; background: #fff9c4;">1</td>
                                     <td style="border: 1px solid #ddd; padding: 8px;">0</td>
                                     <td style="border: 1px solid #ddd; padding: 8px;">0</td>
-                                    <td style="border: 1px solid #ddd; padding: 8px; text-align: left;"><small>a</small></td>
+                                    <td style="border: 1px solid #ddd; padding: 8px; text-align: left;"><small>a</small>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td style="border: 1px solid #ddd; padding: 8px;">2</td>
@@ -756,7 +865,8 @@ int main(void){
                                     <td style="border: 1px solid #ddd; padding: 8px;">1</td>
                                     <td style="border: 1px solid #ddd; padding: 8px; background: #fff9c4;">2</td>
                                     <td style="border: 1px solid #ddd; padding: 8px;">0</td>
-                                    <td style="border: 1px solid #ddd; padding: 8px; text-align: left;"><small>b, ab</small></td>
+                                    <td style="border: 1px solid #ddd; padding: 8px; text-align: left;"><small>b,
+                                            ab</small></td>
                                 </tr>
                                 <tr>
                                     <td style="border: 1px solid #ddd; padding: 8px;">3</td>
@@ -764,7 +874,8 @@ int main(void){
                                     <td style="border: 1px solid #ddd; padding: 8px;">1</td>
                                     <td style="border: 1px solid #ddd; padding: 8px; background: #fff9c4;">4</td>
                                     <td style="border: 1px solid #ddd; padding: 8px;">0</td>
-                                    <td style="border: 1px solid #ddd; padding: 8px; text-align: left;"><small>b, ab (※位置が違うため区別)</small></td>
+                                    <td style="border: 1px solid #ddd; padding: 8px; text-align: left;"><small>b, ab
+                                            (※位置が違うため区別)</small></td>
                                 </tr>
                                 <tr>
                                     <td style="border: 1px solid #ddd; padding: 8px;">4</td>
@@ -772,7 +883,8 @@ int main(void){
                                     <td style="border: 1px solid #ddd; padding: 8px;">1</td>
                                     <td style="border: 1px solid #ddd; padding: 8px;">4</td>
                                     <td style="border: 1px solid #ddd; padding: 8px; background: #fff9c4;">6</td>
-                                    <td style="border: 1px solid #ddd; padding: 8px; text-align: left;"><small>c, ac, bc, bc, abc, abc</small></td>
+                                    <td style="border: 1px solid #ddd; padding: 8px; text-align: left;"><small>c, ac,
+                                            bc, bc, abc, abc</small></td>
                                 </tr>
                             </table>
                         </div>
@@ -793,8 +905,10 @@ int main(void){
                     <hr>
 
                     <div class="code-block">
-                        <h3><a href="https://atcoder.jp/contests/abc456/submissions/75463148" target="_blank" rel="noopener noreferrer">ソースコード (C++)</a></h3>
-                        <pre style="background: #272822; color: #f8f8f2; padding: 15px; border-radius: 5px; overflow-x: auto;"><code>#include &lt;bits/stdc++.h&gt;
+                        <h3><a href="https://atcoder.jp/contests/abc456/submissions/75463148" target="_blank"
+                                rel="noopener noreferrer">ソースコード (C++)</a></h3>
+                        <pre
+                            style="background: #272822; color: #f8f8f2; padding: 15px; border-radius: 5px; overflow-x: auto;"><code>#include &lt;bits/stdc++.h&gt;
 using namespace std;
 
 int main(void){
@@ -832,11 +946,12 @@ int main(void){
 
 
 
-            <hr>
+                <hr>
 
                 <!-- 感想セクション -->
-                <section id ="thoughts" class="post-footer">
-                    <div class="feedback-section" style="background: #fdf2f2; padding: 20px; border-radius: 10px; margin-bottom: 30px;">
+                <section id="thoughts" class="post-footer">
+                    <div class="feedback-section"
+                        style="background: #fdf2f2; padding: 20px; border-radius: 10px; margin-bottom: 30px;">
                         <h3 style="color: #d32f2f; margin-top: 0;">今回のコンテストの感想</h3>
                         <p>
                             今回のABC456はアルゴリズムの基礎が学べるセットだと思いました。<br>
@@ -853,31 +968,18 @@ int main(void){
 
                     <hr>
 
-                    <!-- Writer紹介セクション -->
-                    <div class="writer-profile" style="display: flex; align-items: center; gap: 20px; padding: 20px; background: #f9f9f9; border-radius: 10px; border: 1px solid #eee;">
-                        <!-- アイコン（正方形で表示） -->
-                        <div class="writer-icon" style="flex-shrink: 0;">
-                            <img src="../assets/icon.png" alt="Writer Icon" style="width: 80px; height: 80px; border-radius: 10px; object-fit: cover; border: 2px solid #333;">
-                        </div>
-                        
-                        <div class="writer-info">
-                            <h4 style="margin: 0; font-size: 1.2em; color: #333;">Writer: Murakami1704</h4>
-                            <p style="margin: 5px 0; color: #666; font-size: 0.9em;">
-                                死が無い高専生(5年)
-                            </p>
-                            <p style="margin: 0; line-height: 1.5;">
-                                プログラムが好きな人。最近制御に興味がある。(研究室は制御系)
-                            </p>
-                        </div>
-                    </div>
+                    <!-- プロフィールの器 -->
+                    <div id="profile-placeholder"></div>
                 </section>
             </article>
         </main>
     </div>
 
-    <!-- フッター -->
-    <footer style="text-align: center; padding: 20px; color: #888; font-size: 0.8em;">
-        &copy; 2026 競プロ備忘録. All Rights Reserved.
-    </footer>
+    <!-- フッターの器 -->
+    <div id="footer-placeholder"></div>
+
+    <!-- 共通JSの読み込み -->
+    <script src="../js/common.js"></script>
 </body>
+
 </html>
