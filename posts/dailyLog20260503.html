@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>精選問題日記20260503 - 競技プログラミング 備忘録</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- 共通パーツの注入 -->
+    <script src="../js/common.js" defer></script>
+    <!-- 数式表示用 MathJax -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+
+    <div id="header-placeholder"></div>
+    <div id="nav-placeholder"></div>
+
+    <div class="container">
+        <main>
+            <article>
+                <h1>精選問題日記：DP・Bit探索・Priority Queue</h1>
+                <p>5/3に解いた問題をカテゴリ別にまとめました。</p>
+
+                <!-- DP セクション -->
+                <h2 id="section-a">Dynamic Programming (DP)</h2>
+
+                <section class="problem-content">
+                    <h3>A - Frog 1 (EDPC)</h3>
+                    <div class="status-tags">
+                        <span class="tag tag-wa">解説AC</span>
+                        <span class="tag tag-difficulty">茶?</span>
+                    </div>
+                    <p>見たことあるけど解けなかった問題。でも、DPの初歩的な問題なので、なんとなく思った通りに解くことができました。</p>
+                    <p><strong>反省点：</strong>初期値の設定には注意が必要。貰うDPと配るDPの違いには気づいたものの、使い分けはいまだによくわかっていません。</p>
+                    <details>
+                        <summary>コードを見る</summary>
+                        <pre><code>#include <bits/stdc++.h>
+using namespace std;
+int main(void){
+    int n;
+    cin >> n;
+    vector<long long> dp(n, 1e10), h(n);
+    for(int i = 0; i < n; i++){
+        cin >> h[i];
+    }
+    dp[0] = 0;
+    for(int i = 0; i < n-1; i++){
+        dp[i+1] = min(dp[i+1], dp[i] + abs(h[i]-h[i+1]));
+        if(i < n-2){
+            dp[i+2] = min(dp[i+2], dp[i] + abs(h[i]-h[i+2]));
+        }
+    }
+
+    cout << dp[n-1] << endl;
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3>B - Frog 2 (EDPC)</h3>
+                    <div class="status-tags">
+                        <span class="tag tag-wa">解説AC</span>
+                        <span class="tag tag-difficulty">緑?</span>
+                    </div>
+                    <p>Aの拡張で解ける問題。計算量的に $O(NK)$ で間に合うんだ...と感じました。</p>
+                    <p><strong>制約：</strong><br>
+                        $2 \le N \le 10^5$<br>
+                        $1 \le K \le 100$<br>
+                        $1 \le h_i \le 10^4$
+                    </p>
+                    <details>
+                        <summary>コードを見る</summary>
+                        <pre><code>#include <bits/stdc++.h>
+using namespace std;
+int main(void){
+    int n, k;
+    cin >> n >> k;
+    vector<long long> dp(n, 1e9), a(n);
+    for(int i = 0; i < n; i++){
+        cin >> a[i];
+    }
+    dp[0] = 0;
+    for(int i = 0; i < n; i++){
+        for(int j = 1; j <= k; j++){
+            if(i + j < n){
+                dp[i + j] = min(dp[i + j], dp[i] + abs(a[i] - a[i + j]));
+            }
+        }
+    }
+
+    cout << dp[n-1] << endl;
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3>C - 柱柱柱柱柱 (ABC040)</h3>
+                    <div class="status-tags">
+                        <span class="tag tag-ac">AC</span>
+                        <span class="tag tag-difficulty">緑</span>
+                    </div>
+                    <p>Frog 1と同じ制約下で解ける問題。この問題を難なく実装できたので、初歩的なDPはできるようになったかも？</p>
+                    <details>
+                        <summary>コードを見る</summary>
+                        <pre><code>#include <bits/stdc++.h>
+using namespace std;
+int main(void){
+    int n;
+    cin >> n;
+    vector<long long> dp(n, 1e10), h(n);
+    for(int i = 0; i < n; i++){
+        cin >> h[i];
+    }
+    dp[0] = 0;
+    for(int i = 0; i < n-1; i++){
+        dp[i+1] = min(dp[i+1], dp[i] + abs(h[i]-h[i+1]));
+        if(i < n-2){
+            dp[i+2] = min(dp[i+2], dp[i] + abs(h[i]-h[i+2]));
+        }
+    }
+
+    cout << dp[n-1] << endl;
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3>C - Typical Stairs (ABC129)</h3>
+                    <div class="status-tags">
+                        <span class="tag tag-wa">解説AC</span>
+                        <span class="tag tag-difficulty">茶</span>
+                    </div>
+                    <p>最初はわからなかったが、解説を見て納得。フィボナッチ数列のように解くことができます。</p>
+                    <blockquote>
+                        未来の自分へ：これを解説無しで解けるようになっていただきたい。。。
+                    </blockquote>
+                    <details>
+                        <summary>コードを見る</summary>
+                        <pre><code>#include <bits/stdc++.h>
+using namespace std;
+int main(void){
+    int n, m;
+    cin >> n >> m;
+    vector<long long> dp(n+1, 0), a(m);
+    dp[0] = 1;
+    dp[1] = 1;
+    for(int i = 0; i < m; i++){
+        cin >> a[i];
+        dp[a[i]] = -1;
+    }
+    for(int i = 2; i <= n; i++){
+        if(dp[i] == -1){
+            continue;
+        }
+
+        if(dp[i-1] != -1){
+            dp[i] += dp[i-1];
+        }
+        if(dp[i-2] != -1){
+            dp[i] += dp[i-2];
+        }
+
+        dp[i] %= 1000000007;
+    }
+
+    cout << dp[n] << endl;
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <hr>
+
+                <!-- Bit探索 セクション -->
+                <h2 id="section-b">Bit探索</h2>
+                <section class="problem-content">
+                    <h3>C - Popcorn (ABC358)</h3>
+                    <div class="status-tags">
+                        <span class="tag tag-ac">AC</span>
+                        <span class="tag tag-difficulty">灰</span>
+                    </div>
+                    <p>選ぶ店と選ばない店をBit探索し、選んだ店ですべての味をコンプリートできるか全探索。コードがぐちゃぐちゃになってしまったので、きれいに書けないか模索中です。</p>
+                    <p>Bit探索はおそらく一番苦手な分野なので頑張りたい！</p>
+                    <details>
+                        <summary>コードを見る</summary>
+                        <pre><code>#include <bits/stdc++.h>
+using namespace std;
+int main(void){
+    int n, m;
+    cin >> n >> m;
+    vector<string> s(n);
+    for(int i = 0; i < n; i++){
+        cin >> s[i];
+    }
+
+    int ans = 100;
+
+    for(int i = 0; i < (1 << n); i++){
+        bool t = true;
+        vector<int> tmp;
+        int l = i;
+        int j = 0;
+        while(l != 0){
+            int a = l % 2;
+            l /= 2;
+            if(a == 1){
+                tmp.push_back(j);
+            }
+            j++;
+        }
+
+        for(int k = 0; k < m; k++){
+            bool f = false;
+            for(int p = 0; p < tmp.size(); p++){
+                if(s[tmp[p]][k] == 'o'){
+                    f = true;
+                }
+            }
+            if(!f){
+                t = false;
+            }
+        }
+
+        if(t){
+            int u = tmp.size();
+            ans = min(ans, u);
+        }
+    }
+
+    cout << ans << endl;
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <hr>
+
+                <!-- Priority_queue セクション -->
+                <h2 id="section-c">Priority Queue</h2>
+                <section class="problem-content">
+                    <h3>B - Get Min (ABC419)</h3>
+                    <div class="status-tags">
+                        <span class="tag tag-ac">AC</span>
+                        <span class="tag tag-difficulty">灰</span>
+                    </div>
+                    <p>最も簡単なpriority_queueの問題だと思います。最大値出力と最小値出力で宣言方法が少し違うので、しっかり覚えておきたい。</p>
+                    <details>
+                        <summary>コードを見る</summary>
+                        <pre><code>#include <bits/stdc++.h>
+using namespace std;
+int main(void){
+    int q;
+    cin >> q;
+    priority_queue<int, vector<int>, greater<int>> que;
+    for(int i = 0; i < q; i++){
+        int t;
+        cin >> t;
+        if(t == 1){
+            int x;
+            cin >> x;
+            que.push(x);
+        }
+        else {
+            cout << que.top() << endl;
+            que.pop();
+        }
+    }
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section id="section-d" class="problem-content">
+                    <h3>C - 木 (Indeedなう)</h3>
+                    <div class="status-tags">
+                        <span class="tag tag-ac">AC</span>
+                        <span class="tag tag-difficulty">水</span>
+                    </div>
+                    <p><strong>人生初の水diff AC！</strong>（昔の問題なので今なら茶〜灰くらいかもですが...）</p>
+                    <p>グラフ、幅優先探索（BFS）、priority_queueが混ざった応用問題。グラフ入力後、BFSでpriority_queueに次の位置を格納しつつ、最小値を取り出していくことで解けました。</p>
+                    <details>
+                        <summary>コードを見る</summary>
+                        <pre><code>#include <bits/stdc++.h>
+using namespace std;
+int main(void){
+    int n;
+    cin >> n;
+    vector<int> g[100009];
+    for(int i = 0; i < n-1; i++){
+        int l, r;
+        cin >> l >> r;
+        g[l].push_back(r);
+        g[r].push_back(l);
+    }
+
+    priority_queue<int, vector<int>, greater<int>> q;
+    q.push(1);
+    vector<int> ans;
+    vector<bool> visited(100009, false);
+    while(!q.empty()){
+        int t = q.top();
+        q.pop();
+        visited[t] = true;
+        ans.push_back(t);
+        for(int i = 0; i < g[t].size(); i++){
+            if(visited[g[t][i]] == false){
+                q.push(g[t][i]);
+            }
+        }
+    }
+
+    for(int i = 0; i < ans.size(); i++){
+        if(i == ans.size() - 1){
+            cout << ans[i];
+        }
+        else {
+            cout << ans[i] << " ";
+        }
+    }
+    cout << endl;
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <!-- 全体感想 -->
+                <section id="thoughts" class="problem-content">
+                    <h2>全体の感想</h2>
+                    <p>今回はDPを中心に、苦手なBit探索や応用的なPriority Queueに触れました。特に初の水diff ACは自信になりました！貰うDPと配るDPの使い分けなど、まだ曖昧な部分を練習していきたいです。</p>
+                </section>
+
+                <div id="profile-placeholder"></div>
+            </article>
+        </main>
+    </div>
+
+    <div id="footer-placeholder"></div>
+
+</body>
+</html>

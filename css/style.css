@@ -204,3 +204,44 @@ html { scroll-behavior: smooth; }
 .sidebar-section ul li a:hover {
     color: #03a9f4;
 }
+
+/* テンプレート用の追加スタイル */
+
+.status-tags {
+    margin-bottom: 15px;
+}
+
+.tag {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: bold;
+    margin-right: 5px;
+    color: white;
+}
+
+.tag-ac { background-color: #5cb85c; } /* 正解の緑 */
+.tag-wa { background-color: #f0ad4e; } /* 解説ACのオレンジ */
+.tag-difficulty { background-color: #333; } /* 難易度（黒や灰） */
+
+/* コード表示部分を少しおしゃれに */
+details {
+    background: #f4f4f4;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+summary {
+    cursor: pointer;
+    font-weight: bold;
+    color: #0277bd;
+}
+
+blockquote {
+    border-left: 4px solid #b3e5fc;
+    padding-left: 15px;
+    color: #666;
+    font-style: italic;
+    margin: 20px 0;
+}

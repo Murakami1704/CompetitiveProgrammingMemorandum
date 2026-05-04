@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>ABC456 解説 - 競技プログラミング 備忘録</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <title>精進記録2026/5/3 - 競技プログラミング 備忘録</title>
+    <link rel="stylesheet" href="css/style.css">
     <style>
         /* 図解用の追加スタイル */
         .dice-sim {
@@ -116,53 +116,67 @@
 
     <div class="container">
         <main>
-            <article id="abc456">
-                <h2><a href="https://atcoder.jp/contests/abc456" target="_blank" rel="noopener noreferrer">ABC 456</a>
-                </h2>
-                <p>writer: Murakami1704</p>
+            <!-- 1問題目 -->
+            <section id="section-a" class="problem-content">
+                <h2>A - 問題タイトル</h2>
+                <div class="status-tags">
+                    <span class="tag tag-ac">AC</span>
+                    <span class="tag tag-difficulty">灰</span>
+                </div>
 
-                <!-- A問題セクション -->
-                <section id="section-a" class="problem-content">
-                </section>
+                <h3>考察プロセス</h3>
+                <p>
+                    問題文を読んだ第一印象や、最初に思いついた解法を日記風に書きます。「$N$ が小さいから全探索でいけそう」といった直感を記録しましょう。
+                </p>
 
+                <h3>学んだこと・反省</h3>
+                <ul>
+                    <li>特定のライブラリの使い方や、ケアレスミスをしたポイントを箇条書きにします。</li>
+                    <li>「今回はオーバーフローに気付くのが遅れた」などの反省点も。</li>
+                </ul>
 
+                <details>
+                    <summary>ソースコードを表示</summary>
+                    <pre><code>// ここにコードを貼り付け</code></pre>
+                </details>
+            </section>
 
-                <!-- B問題セクション -->
-                <section id="section-b" class="problem-content">
-                </section>
+            <hr>
 
+            <!-- 2問題目：B問題 -->
+            <section id="section-b" class="problem-content">
+                <h2>B - 問題タイトル</h2>
+                <div class="status-tags">
+                    <span class="tag tag-wa">WA (解説AC)</span>
+                    <span class="tag tag-difficulty">茶</span>
+                </div>
 
+                <h3>考察プロセス</h3>
+                <p>
+                    ここで詰まった！というポイントを正直に書きます。日記的なノリで「30分考えたけど、$O(N \log N)$ の方法が浮かばなかった」など。
+                </p>
 
-                <!-- C問題セクション -->
-                <section id="section-c" class="problem-content">
-                </section>
+                <h3>未来の自分へ</h3>
+                <blockquote>
+                    半年後の自分へ：このタイプの動的計画法（DP）は、典型問題だから次は自力で解けるようになっていてくれ！
+                </blockquote>
 
+                <details>
+                    <summary>ソースコードを表示</summary>
+                    <pre><code>// ここにコードを貼り付け</code></pre>
+                </details>
+            </section>
 
+            <!-- 最後に感想セクション -->
+            <section id="thoughts" class="problem-content">
+                <h2>今回のまとめ・感想</h2>
+                <p>
+                    全体を通した感想や、現在のレート、次回の目標などを自由に書くスペースです。
+                </p>
 
-                <!-- D問題セクション -->
-                <section id="section-d" class="problem-content">
-                </section>
-
-
-
-                <hr>
-
-                <!-- 感想セクション -->
-                <section id="thoughts" class="post-footer">
-                    <div class="feedback-section"
-                        style="background: #fdf2f2; padding: 20px; border-radius: 10px; margin-bottom: 30px;">
-                        <h3 style="color: #d32f2f; margin-top: 0;">今回のコンテストの感想</h3>
-                        <p>
-                            aaaa
-                        </p>
-                    </div>
-
-                    <hr>
-
-                    <!-- プロフィールの器 -->
+                <!-- プロフィールの器 -->
                     <div id="profile-placeholder"></div>
-                </section>
-            </article>
+            </section>
         </main>
     </div>
 
@@ -170,7 +184,7 @@
     <div id="footer-placeholder"></div>
 
     <!-- 共通JSの読み込み -->
-    <script src="../js/common.js"></script>
+    <script src="js/common.js"></script>
 </body>
 
 </html>
