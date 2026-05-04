@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>精選問題日記20260504 - 競技プログラミング備忘録</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/common.js" defer></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+      };
+    </script>
+</head>
+<body>
+
+    <div id="header-placeholder"></div>
+    <div id="nav-placeholder"></div>
+
+    <div class="container">
+        <main>
+            <article>
+                <h1>精選問題日記：DP・Priority Queue・set</h1>
+                <p>2026/5/4(月) に解いた問題の記録です。</p>
+
+                <!-- DP セクション -->
+                <h2 id="section-dp">DP (Dynamic Programming)</h2>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/dp/tasks/dp_c" target="_blank">C - Vacation (EDPC)</a></h3>
+                    <div class="status-tags"><span class="tag tag-wa">解説AC</span><span class="tag tag-difficulty" style="background-color: #5cb85c;">緑</span></div>
+                    <p>前の日までの最大値を求めて、それをもとに次の日の最大値を求めるようなDPをすればできる。類題で対応できるようになりたい。。。</p>
+                    <p><a href="https://atcoder.jp/contests/dp/submissions/75508395" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int main (void) {
+    int n;
+    cin >> n;
+    vector&lt;vector&lt;int&gt;&gt; dp(n+1, vector&lt;int&gt;(3, 0));
+
+    for(int i = 0; i < n; i++){
+        vector&lt;int&gt; a(3);
+        cin >> a[0] >> a[1] >> a[2];
+        for(int j = 0; j < 3; j++){
+            for(int k = 0; k < 3; k++){
+                if(j == k) continue;
+                dp[i+1][k] = max(dp[i+1][k], dp[i][j] + a[k]);
+            }
+        }
+    }
+    cout << max(dp[n][0], max(dp[n][1], dp[n][2])) << endl;
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/dp/tasks/dp_d" target="_blank">D - Knapsack 1 (EDPC)</a></h3>
+                    <div class="status-tags"><span class="tag tag-wa">解説AC</span><span class="tag tag-difficulty" style="background-color: #5cb85c;">緑</span></div>
+                    <p>ついに現る！ナップサック問題！DP配列の大きさを品物+1×容量+1に設定して各行にて、dp[i+1][j]とdp[i+1][j+w]を更新していくことで $O(NW)$ で解くことができる。</p>
+                    <p><a href="https://atcoder.jp/contests/dp/submissions/75509191" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int main (void) {
+    int n, w;
+    cin >> n >> w;
+    vector&lt;vector&lt;long long&gt;&gt; dp(n+1, vector&lt;long long&gt;(w+1, -1));
+    dp[0][0] = 0;
+    for(int i = 0; i < n; i++){
+        long long a, b;
+        cin >> a >> b;
+        for(int j = 0; j <= w; j++){
+            if(dp[i][j] >= 0){
+                dp[i+1][j] = max(dp[i][j], dp[i+1][j]);
+                if(j + a <= w) dp[i+1][j+a] = max(dp[i+1][j+a], dp[i][j] + b);
+            }
+        }
+    }
+    long long ans = 0;
+    for(int i = 0; i <= w; i++) ans = max(ans, dp[n][i]);
+    cout << ans << endl;
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <!-- Priority Queue セクション -->
+                <h2 id="section-pq">Priority Queue</h2>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/abc212/tasks/abc212_d" target="_blank">D - Querying Multiset (ABC212)</a></h3>
+                    <div class="status-tags"><span class="tag tag-wa">解説AC</span><span class="tag tag-difficulty" style="background-color: #8B4513;">茶</span></div>
+                    <p>袋の中のボールをpriority_queueで管理しつつ、増加分は別に管理すれば行ける。増加した後にpushしたものはどうするんだろうと思ったが、$x - \text{増加分}$ をpushすればできることを知ってなるほどと感じた。今後こういう問題でこのように臨機応変にできるようになりたいと思った。</p>
+                    <p><a href="https://atcoder.jp/contests/abc212/submissions/75505650" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int main(void){
+    int qu; cin >> qu;
+    priority_queue&lt;long long, vector&lt;long long&gt;, greater&lt;long long&gt;&gt; q;
+    long long t = 0;
+    for(int i = 0; i < qu; i++){
+        int p; cin >> p;
+        if(p == 1){ long long x; cin >> x; q.push(x - t); }
+        else if(p == 2){ long long x; cin >> x; t += x; }
+        else { cout << q.top() + t << endl; q.pop(); }
+    }
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/tessoku-book/tasks/tessoku_book_dl" target="_blank">B39 - Taro's Job (鉄則本)</a></h3>
+                    <div class="status-tags"><span class="tag tag-wa">解説AC</span></div>
+                    <p>その日の仕事の報酬を2次元配列で格納した後、1日目からd日目までpriority_queueに給料を格納してからその中で最も大きい値を合計に足していくことでできる。</p>
+                    <p><a href="https://atcoder.jp/contests/tessoku-book/submissions/75507003" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int main(void){
+    int n, d; cin >> n >> d;
+    vector&lt;int&gt; w[2009];
+    for(int i = 0; i < n; i++){
+        int day, s; cin >> day >> s;
+        w[day].push_back(s);
+    }
+    long long ans = 0;
+    priority_queue&lt;long long&gt; q;
+    for(int i = 1; i <= d; i++){
+        for(int j = 0; j < w[i].size(); j++) q.push(w[i][j]);
+        if(!q.empty()){ ans += q.top(); q.pop(); }
+    }
+    cout << ans << endl; return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/abc234/tasks/abc234_d" target="_blank">D - Prefix K-th Max (ABC234)</a></h3>
+                    <div class="status-tags"><span class="tag tag-ac">AC</span><span class="tag tag-difficulty" style="background-color: #8B4513;">茶</span></div>
+                    <p>Priority_queueでpopしたものとこれまでpopした最大値を比べ、大きい方を出力していくことで達成できる。</p>
+                    <p><a href="https://atcoder.jp/contests/abc234/submissions/75507276" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int main(void){
+    int n, k; cin >> n >> k;
+    priority_queue&lt;int, vector&lt;int&gt;, greater&lt;int&gt;&gt; q;
+    int m = 0;
+    for(int i = 0; i < n; i++){
+        int t; cin >> t; q.push(t);
+        if(i >= k-1){ int s = q.top(); q.pop(); m = max(m, s); cout << m << endl; }
+    }
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <!-- Set セクション -->
+                <h2 id="section-set">Set</h2>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/abc032/tasks/abc032_b" target="_blank">B - 高橋君とパスワード (ABC32)</a></h3>
+                    <div class="status-tags"><span class="tag tag-ac">AC</span><span class="tag tag-difficulty" style="background-color: #8B4513;">茶</span></div>
+                    <p>Substrを用いて文字列の一部分を取り出し、それをsetに組み込むことで目標を達成できる。</p>
+                    <p><a href="https://atcoder.jp/contests/abc032/submissions/75505054" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int main(void){
+    string s; int n; cin >> s >> n;
+    int l = s.length();
+    set&lt;string&gt; se;
+    for(int i = 0; i < l - n + 1; i++){ se.insert(s.substr(i, n)); }
+    cout << se.size() << endl; return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/arc033/tasks/arc033_2" target="_blank">B - メタ構文変数(ARC33)</a></h3>
+                    <div class="status-tags"><span class="tag tag-ac">AC</span><span class="tag tag-difficulty" style="background-color: #8B4513;">茶</span></div>
+                    <p>一人目の変数をすべてsetに入れた後、二人目の変数ではsetにすでに入っていたらカウントを増やし、カウント/set.size()をすることで答えが出る。</p>
+                    <p><a href="https://atcoder.jp/contests/arc033/submissions/75505142" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int main(void){
+    int n, m; cin >> n >> m;
+    set&lt;int&gt; s; int count = 0;
+    for(int i = 0; i < n; i++){ int a; cin >> a; s.insert(a); }
+    for(int j = 0; j < m; j++){ int b; cin >> b; if(s.count(b)) count++; s.insert(b); }
+    cout << 1.0 * count / s.size() << endl; return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/arc014/tasks/arc014_2" target="_blank">B - あの日したしりとりの結果を僕達はまだ知らない。 (ARC14)</a></h3>
+                    <div class="status-tags"><span class="tag tag-ac">AC</span><span class="tag tag-difficulty" style="background-color: #8B4513;">茶</span></div>
+                    <p>しりとりのルールにのっとり、前の単語の最後の文字と今の単語の最初の文字がつながってなかったら×、単語をsetに入れつつ、setの中にすでに単語が入っていたら×とすることで答えが出る。</p>
+                    <p><a href="https://atcoder.jp/contests/arc014/submissions/75505279" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int main(void){
+    int n; cin >> n; vector&lt;string&gt; w(n); set&lt;string&gt; s;
+    for(int i = 0; i < n; i++){
+        cin >> w[i];
+        if(s.count(w[i]) || (i >= 1 && w[i-1].back() != w[i][0])){
+            cout << (i % 2 == 0 ? "LOSE" : "WIN") << endl; return 0;
+        }
+        s.insert(w[i]);
+    }
+    cout << "DRAW" << endl; return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <!-- ADT セクション -->
+                <h2 id="section-adt">AtCoder Daily Contest (Easy)</h2>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/abc325/tasks/abc325_a" target="_blank">A - Takahashi san (ABC325)</a></h3>
+                    <div class="status-tags"><span class="tag tag-ac">AC</span><span class="tag tag-difficulty" style="background-color: #808080;">灰</span></div>
+                    <p>String a, bの両方を読み込んで、a と “ san”を出力することでできた。</p>
+                    <p><a href="https://atcoder.jp/contests/adt_easy_20260504_2/submissions/75505825" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int main(void){ string a, b; cin >> a >> b; cout << a << " san" << endl; return 0; }</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/abc452/tasks/abc452_a" target="_blank">A - Gothec (ABC452)</a></h3>
+                    <div class="status-tags"><span class="tag tag-ac">AC</span><span class="tag tag-difficulty" style="background-color: #808080;">灰</span></div>
+                    <p>全部if文で解いた。コード量が少し多くなっていて、もう少しスマートにできそうな気がした。</p>
+                    <p><a href="https://atcoder.jp/contests/adt_easy_20260504_2/submissions/75505876" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int main(void){
+    int m, d; cin >> m >> d;
+    if((m==1&&d==7)||(m==3&&d==3)||(m==5&&d==5)||(m==7&&d==7)||(m==9&&d==9)) cout << "Yes" << endl;
+    else cout << "No" << endl; return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/abc341/tasks/abc341_b" target="_blank">B - Foreign Exchange (ABC341)</a></h3>
+                    <div class="status-tags"><span class="tag tag-ac">AC</span><span class="tag tag-difficulty" style="background-color: #808080;">灰</span></div>
+                    <p>最初貪欲法とはわからず少し手間取った。。。というより、問題の読解力のなさが少し問題だった気がする。</p>
+                    <p><a href="https://atcoder.jp/contests/adt_easy_20260504_2/submissions/75506449" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int main(void){
+    int n; cin >> n; vector&lt;long long&gt; a(n);
+    for(int i = 0; i < n; i++) cin >> a[i];
+    for(int i = 0; i < n-1; i++){ long long s, t; cin >> s >> t; a[i+1] += (a[i]/s) * t; }
+    cout << a[n-1] << endl; return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/abc382/tasks/abc382_b" target="_blank">B - Daily Cookie 2 (ABC382)</a></h3>
+                    <div class="status-tags"><span class="tag tag-ac">AC</span><span class="tag tag-difficulty" style="background-color: #808080;">灰</span></div>
+                    <p>for文をn-1から開始して、a[i]を調べつつ、カウントを0に減らしていくことでできた。</p>
+                    <p><a href="https://atcoder.jp/contests/adt_easy_20260504_2/submissions/75506369" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int main(void){
+    int n, d; string s; cin >> n >> d >> s;
+    for(int i = n-1; i >= 0 && d > 0; i--){ if(s[i] == '@'){ s[i] = '.'; d--; } }
+    cout << s << endl; return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/abc450/tasks/abc450_c" target="_blank">C - Puddles (ABC450)</a></h3>
+                    <div class="status-tags"><span class="tag tag-ac">AC</span><span class="tag tag-difficulty" style="background-color: #808080;">灰</span></div>
+                    <p>典型的なグリッドの問題。今回は幅優先探索(BFS)で解いた。閉空間を調べつつ、端につながっていたらカウントを増やさないことで調べることができる。最初は調べる始点の座標が端か否かを判別するプログラムを書き忘れてWAになってしまった。。。こういうミスもあるから気を付けようと思った。</p>
+                    <p><a href="https://atcoder.jp/contests/adt_easy_20260504_2/submissions/75506286" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include <bits/stdc++.h>
+using namespace std;
+int h, w;
+vector<string> g(1009);
+bool visited[1009][1009];
+
+int dx[4] = {0, 0, 1, -1};
+int dy[4] = {1, -1, 0, 0};
+
+int bfs(int x, int y){
+    queue<pair<int, int>> q;
+    q.push({x, y});
+    visited[x][y] = true;
+    bool hashi = false;
+    if(x == 0 || y == 0 || x == h-1 || y == w-1){
+        hashi = true;
+    }
+    while(!q.empty()){
+        int xt, yt;
+        pair<int, int> t;
+        t = q.front();
+        q.pop();
+        xt = t.first;
+        yt = t.second;
+
+
+        for(int i = 0; i < 4; i++){
+            int nx = xt + dx[i];
+            int ny = yt + dy[i];
+            if(nx >= 0 && nx < h && ny >= 0 && ny < w){
+                if(visited[nx][ny] == false && g[nx][ny] == '.'){
+                    q.push({nx, ny});
+                    visited[nx][ny] = true;
+                    if(nx== 0 || nx == h-1 || ny == 0 || ny == w-1){
+                        hashi = true;
+                    }
+                }
+            }
+        }
+    }
+
+    if(hashi){
+        return -1;
+    }
+    else {
+        return 0;
+    }
+}
+
+int main(void){
+    cin >> h >> w;
+    for(int i = 0; i < h; i++){
+        cin >> g[i];
+    }
+
+    int count = 0;
+
+    for(int i = 0; i < h; i++){
+        for(int j = 0; j < w; j++){
+            if(g[i][j] == '.' && visited[i][j] == false){
+                count += bfs(i, j);
+                count++;
+            }
+        }
+    }
+
+    cout << count << endl;
+    return 0;
+}
+</code></pre>
+                    </details>
+                </section>
+
+                <section id="thoughts" class="problem-content">
+                    <h2>全体の感想</h2>
+                    <p>
+                        今日はpriority_queueやsetが中心になっていたと思います。次はDPをさらに深めながら、他のアルゴリズムにも触れることができたらなと思います。<br>
+                        ついでに、AtCoder Daily Training (Easy)に参加してみました。結果はABCDE全完、2位/17人でした！！<br>
+                        C問題もそれなりに取れるようになったような気がするので、これからもCを安定させつつ、D問題もどんどん解けるようになっていきたいと思います。
+                    </p>
+                </section>
+
+                <div id="profile-placeholder"></div>
+
+            </article>
+        </main>
+    </div>
+    <div id="footer-placeholder"></div>
+</body>
+</html>

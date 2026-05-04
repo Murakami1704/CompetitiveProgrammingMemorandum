@@ -3,12 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>精選問題日記20260503 - 競技プログラミング 備忘録</title>
+    <title>精選問題日記20260503 - 競技プログラミング備忘録</title>
     <link rel="stylesheet" href="../css/style.css">
     <!-- 共通パーツの注入 -->
     <script src="../js/common.js" defer></script>
-    <!-- 数式表示用 MathJax -->
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+    <!-- 数式表示用 MathJax (最新の読み込み設定) -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+      };
+    </script>
 </head>
 <body>
 
@@ -19,21 +24,21 @@
         <main>
             <article>
                 <h1>精選問題日記：DP・Bit探索・Priority Queue</h1>
-                <p>5/3に解いた問題をカテゴリ別にまとめました。</p>
-
+                
                 <!-- DP セクション -->
                 <h2 id="section-a">Dynamic Programming (DP)</h2>
 
                 <section class="problem-content">
-                    <h3>A - Frog 1 (EDPC)</h3>
+                    <h3><a href="https://atcoder.jp/contests/dp/tasks/dp_a" target="_blank">A - Frog 1 (EDPC)</a></h3>
                     <div class="status-tags">
                         <span class="tag tag-wa">解説AC</span>
                         <span class="tag tag-difficulty">茶?</span>
                     </div>
                     <p>見たことあるけど解けなかった問題。でも、DPの初歩的な問題なので、なんとなく思った通りに解くことができました。</p>
                     <p><strong>反省点：</strong>初期値の設定には注意が必要。貰うDPと配るDPの違いには気づいたものの、使い分けはいまだによくわかっていません。</p>
+                    <p><a href="https://atcoder.jp/contests/dp/submissions/75484566" target="_blank">View Code on AtCoder</a></p>
                     <details>
-                        <summary>コードを見る</summary>
+                        <summary>コードを表示</summary>
                         <pre><code>#include <bits/stdc++.h>
 using namespace std;
 int main(void){
@@ -58,7 +63,7 @@ int main(void){
                 </section>
 
                 <section class="problem-content">
-                    <h3>B - Frog 2 (EDPC)</h3>
+                    <h3><a href="https://atcoder.jp/contests/dp/tasks/dp_b" target="_blank">B - Frog 2 (EDPC)</a></h3>
                     <div class="status-tags">
                         <span class="tag tag-wa">解説AC</span>
                         <span class="tag tag-difficulty">緑?</span>
@@ -69,8 +74,9 @@ int main(void){
                         $1 \le K \le 100$<br>
                         $1 \le h_i \le 10^4$
                     </p>
+                    <p><a href="https://atcoder.jp/contests/dp/submissions/75487124" target="_blank">View Code on AtCoder</a></p>
                     <details>
-                        <summary>コードを見る</summary>
+                        <summary>コードを表示</summary>
                         <pre><code>#include <bits/stdc++.h>
 using namespace std;
 int main(void){
@@ -96,14 +102,15 @@ int main(void){
                 </section>
 
                 <section class="problem-content">
-                    <h3>C - 柱柱柱柱柱 (ABC040)</h3>
+                    <h3><a href="https://atcoder.jp/contests/abc040/tasks/abc040_c" target="_blank">C - 柱柱柱柱柱 (ABC040)</a></h3>
                     <div class="status-tags">
                         <span class="tag tag-ac">AC</span>
                         <span class="tag tag-difficulty">緑</span>
                     </div>
                     <p>Frog 1と同じ制約下で解ける問題。この問題を難なく実装できたので、初歩的なDPはできるようになったかも？</p>
+                    <p><a href="https://atcoder.jp/contests/abc040/submissions/75484658" target="_blank">View Code on AtCoder</a></p>
                     <details>
-                        <summary>コードを見る</summary>
+                        <summary>コードを表示</summary>
                         <pre><code>#include <bits/stdc++.h>
 using namespace std;
 int main(void){
@@ -128,17 +135,16 @@ int main(void){
                 </section>
 
                 <section class="problem-content">
-                    <h3>C - Typical Stairs (ABC129)</h3>
+                    <h3><a href="https://atcoder.jp/contests/abc129/tasks/abc129_c" target="_blank">C - Typical Stairs (ABC129)</a></h3>
                     <div class="status-tags">
                         <span class="tag tag-wa">解説AC</span>
                         <span class="tag tag-difficulty">茶</span>
                     </div>
                     <p>最初はわからなかったが、解説を見て納得。フィボナッチ数列のように解くことができます。</p>
-                    <blockquote>
-                        未来の自分へ：これを解説無しで解けるようになっていただきたい。。。
-                    </blockquote>
+                    <blockquote>未来の自分へ：これを解説無しで解けるようになっていただきたい。。。</blockquote>
+                    <p><a href="https://atcoder.jp/contests/abc129/submissions/75486018" target="_blank">View Code on AtCoder</a></p>
                     <details>
-                        <summary>コードを見る</summary>
+                        <summary>コードを表示</summary>
                         <pre><code>#include <bits/stdc++.h>
 using namespace std;
 int main(void){
@@ -177,15 +183,15 @@ int main(void){
                 <!-- Bit探索 セクション -->
                 <h2 id="section-b">Bit探索</h2>
                 <section class="problem-content">
-                    <h3>C - Popcorn (ABC358)</h3>
+                    <h3><a href="https://atcoder.jp/contests/abc358/tasks/abc358_c" target="_blank">C - Popcorn (ABC358)</a></h3>
                     <div class="status-tags">
                         <span class="tag tag-ac">AC</span>
                         <span class="tag tag-difficulty">灰</span>
                     </div>
-                    <p>選ぶ店と選ばない店をBit探索し、選んだ店ですべての味をコンプリートできるか全探索。コードがぐちゃぐちゃになってしまったので、きれいに書けないか模索中です。</p>
-                    <p>Bit探索はおそらく一番苦手な分野なので頑張りたい！</p>
+                    <p>選ぶ店と選ばない店をBit探索し、選んだ店ですべての味をコンプリートできるか全探索。コードがぐちゃぐちゃになってしまったので、きれいに書けないか模索中。</p>
+                    <p><a href="https://atcoder.jp/contests/abc358/submissions/75490256" target="_blank">View Code on AtCoder</a></p>
                     <details>
-                        <summary>コードを見る</summary>
+                        <summary>コードを表示</summary>
                         <pre><code>#include <bits/stdc++.h>
 using namespace std;
 int main(void){
@@ -241,14 +247,15 @@ int main(void){
                 <!-- Priority_queue セクション -->
                 <h2 id="section-c">Priority Queue</h2>
                 <section class="problem-content">
-                    <h3>B - Get Min (ABC419)</h3>
+                    <h3><a href="https://atcoder.jp/contests/abc419/tasks/abc419_b" target="_blank">B - Get Min (ABC419)</a></h3>
                     <div class="status-tags">
                         <span class="tag tag-ac">AC</span>
                         <span class="tag tag-difficulty">灰</span>
                     </div>
                     <p>最も簡単なpriority_queueの問題だと思います。最大値出力と最小値出力で宣言方法が少し違うので、しっかり覚えておきたい。</p>
+                    <p><a href="https://atcoder.jp/contests/abc419/submissions/75491111" target="_blank">View Code on AtCoder</a></p>
                     <details>
-                        <summary>コードを見る</summary>
+                        <summary>コードを表示</summary>
                         <pre><code>#include <bits/stdc++.h>
 using namespace std;
 int main(void){
@@ -274,15 +281,15 @@ int main(void){
                 </section>
 
                 <section id="section-d" class="problem-content">
-                    <h3>C - 木 (Indeedなう)</h3>
+                    <h3><a href="https://atcoder.jp/contests/indeednow-qualb/tasks/indeednow_2015_qualc_3" target="_blank">C - 木 (Indeedなう)</a></h3>
                     <div class="status-tags">
                         <span class="tag tag-ac">AC</span>
                         <span class="tag tag-difficulty">水</span>
                     </div>
-                    <p><strong>人生初の水diff AC！</strong>（昔の問題なので今なら茶〜灰くらいかもですが...）</p>
-                    <p>グラフ、幅優先探索（BFS）、priority_queueが混ざった応用問題。グラフ入力後、BFSでpriority_queueに次の位置を格納しつつ、最小値を取り出していくことで解けました。</p>
+                    <p>人生初の水diff AC！グラフ入力後、BFSでpriority_queueに次の位置を格納しつつ、最小値を取り出していくことで解けました。</p>
+                    <p><a href="https://atcoder.jp/contests/indeednow-qualb/submissions/75491781" target="_blank">View Code on AtCoder</a></p>
                     <details>
-                        <summary>コードを見る</summary>
+                        <summary>コードを表示</summary>
                         <pre><code>#include <bits/stdc++.h>
 using namespace std;
 int main(void){
@@ -326,10 +333,9 @@ int main(void){
                     </details>
                 </section>
 
-                <!-- 全体感想 -->
                 <section id="thoughts" class="problem-content">
                     <h2>全体の感想</h2>
-                    <p>今回はDPを中心に、苦手なBit探索や応用的なPriority Queueに触れました。特に初の水diff ACは自信になりました！貰うDPと配るDPの使い分けなど、まだ曖昧な部分を練習していきたいです。</p>
+                    <p>今回はDPを中心に、苦手なBit探索や応用的なPriority Queueに触れました。貰うDPと配るDPの使い分けなど、まだ曖昧な部分を練習していきたいです。</p>
                 </section>
 
                 <div id="profile-placeholder"></div>
