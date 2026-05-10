@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>精選問題日記20260510</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/common.js" defer></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+      };
+    </script>
+</head>
+<body>
+
+    <div id="header-placeholder"></div>
+    <div id="nav-placeholder"></div>
+
+    <div class="container">
+        <main>
+            <article>
+                <h1>精選問題日記：累積和・いもす法・二分探索</h1>
+                <p>本日は累積和、いもす法、二分探索の問題を中心に解いていきました。</p>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/abc094/tasks/abc094_b" target="_blank">ABC094 B - Toll Gates</a></h3>
+                    <div class="status-tags"><span class="tag tag-ac">AC</span><span class="tag tag-difficulty" style="background-color: #808080;">灰</span></div>
+                    <p><strong>考えたことなど：</strong><br>
+                    0マス目からNマス目に行くときに必要な料金について考える。これは入力のA1、A2、...Ai、...Amを各要素に足し、累積和を求めることでできる。この累積和を配列Bとする。現在はXマスなので、min(abs(B[0] - B[X]), abs(B[X] - B[N]))を求めることで答えとなる。</p>
+                    <p><a href="https://atcoder.jp/contests/abc094/submissions/75693789" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    int n, m, x;
+    cin >> n >> m >> x;
+    vector<int> a(n+1, 0);
+    for(int i = 0; i < m; i++){
+        int r;
+        cin >> r;
+        a[r]++;
+    }
+
+    for(int i = 1; i <= n; i++){
+        a[i] += a[i-1];
+    }
+
+    cout << min(abs(a[x]-a[n]), abs(a[x]-a[0])) << endl;
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/abc281/tasks/abc281_c" target="_blank">ABC281 C - Circular Playlist</a></h3>
+                    <div class="status-tags"><span class="tag tag-ac">AC</span><span class="tag tag-difficulty" style="background-color: #808080;">灰</span></div>
+                    <p><strong>考えたことなど：</strong><br>
+                    1曲目が流れ始めた時間をi曲目が流れ終わる時間を求める。この配列をTArrayとしたとき、TArray[i]はA[1]からA[i]までの累積和で求めることができる。全ての曲の秒数をTsumとしたとき、これはTArray[N]である。何曲目かを求めるためにT % Tsumを求め、これをSとする。SをTArrayに対して、二分探索を行うことで、S以上のイテレーターitが求められる。つまり、TArray[it] >= S。このitが何曲目かを表し、S - TArray[it-1]を求めることでその曲の開始からの時間も求められる。</p>
+                    <p><a href="https://atcoder.jp/contests/abc281/submissions/75694011" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    long long n, t;
+    cin >> n >> t;
+    vector<long long> a(n+1, 0);
+    for(int i = 0; i < n; i++){
+        long long l;
+        cin >> l;
+        a[i+1] = l + a[i];
+    }
+
+    t %= a[n];
+    int pos = lower_bound(a.begin(), a.end(), t) - a.begin();
+    cout << pos << " " << t - a[pos-1] << endl;
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/abc205/tasks/abc205_d" target="_blank">ABC205 D - Kth Excluded</a></h3>
+                    <div class="status-tags"><span class="tag tag-wa">解説AC</span><span class="tag tag-difficulty" style="background-color: #8B4513;">茶</span></div>
+                    <p><strong>考えたことなど：</strong><br>
+                    こういう「いい数字」系列の問題、非常に苦手なんですわ。。。即座に解説を見て解きました。A1, A2, ..., AN のいずれとも異なる正整数をいい整数と呼ぶことにする。Aiまでのいい整数を保存する配列Ciを用意する。まず、Ki > ANの時は必ず答えはKi + Nとなる。問題はKi < ANの時であり、これはC1からCNについて、Kiを二分探索し、イテレーターitを取得する。この時、A[it] >= Ki、C[it] >= Kiである。この時、itは飛ばした数字の量と同義なので、Ki + itが答えとなる。</p>
+                    <p><a href="https://atcoder.jp/contests/abc205/submissions/75707277" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    int n, q;
+    cin >> n >> q;
+    vector<long long> a(n), c(n);
+    for(int i = 0; i < n; i++){
+        cin >> a[i];
+        if(i == 0){
+            c[i] = a[i] - 1;
+        }
+        else {
+            c[i] = c[i-1] + (a[i] - a[i-1] - 1);
+        }
+    }
+
+    for(int i = 0; i < q; i++){
+        long long k;
+        cin >> k;
+        if(c[n-1] < k){
+            cout << k + n << endl;
+        }
+        else {
+            int pos = lower_bound(c.begin(), c.end(), k) - c.begin();
+            cout << k + pos << endl;
+        }
+    }
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/abc061/tasks/abc061_c" target="_blank">ABC061 C - Big Array</a></h3>
+                    <div class="status-tags"><span class="tag tag-ac">AC</span><span class="tag tag-difficulty" style="background-color: #5cb85c;">緑</span></div>
+                    <p><strong>考えたこと：</strong><br>
+                    aiとbiでペアを組み、これの配列を形成する。つまり、vector&lt;pair&lt;long long, long long&gt;&gt; p(n)を形成する。これをfirstについて昇順にソートし、secondの累積和を取る。K番目の要素はsecondの累積和の二分探索の結果のイテレータitを用いて、p[it].firstが答えとなる。</p>
+                    <p><a href="https://atcoder.jp/contests/abc061/submissions/75694798" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    int n;
+    long long k;
+    cin >> n >> k;
+    vector<pair<long long, long long>> p(n);
+    vector<long long> a(n), b(n), s(n+1, 0);
+    for(int i = 0; i < n; i++){
+        cin >> a[i] >> b[i];
+        p[i].first = a[i];
+        p[i].second = b[i];
+    }
+
+    sort(p.begin(), p.end());
+    for(int i = 0; i < n; i++){
+        s[i+1] = s[i] + p[i].second;
+    }
+
+    int pos = lower_bound(s.begin(), s.end(), k) - s.begin();
+    cout << p[pos-1].first << endl;
+
+
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/abc321/tasks/abc321_d" target="_blank">ABC321 D - Set Menu</a></h3>
+                    <div class="status-tags"><span class="tag tag-wa">解説AC</span><span class="tag tag-difficulty" style="background-color: #5cb85c;">緑</span></div>
+                    <p><strong>考えたこと：</strong><br>
+                    Bの配列を昇順にソートし、Ai - Pという要素についてBで二分探索を行う。これで得られたイテレータitを境に、P * (M - it) + B[it]までの累積和 + Ai * itを0からNまで足し合わせることで求めることができる。</p>
+                    <p><a href="https://atcoder.jp/contests/abc321/submissions/75696511" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    long long n, m, p;
+    cin >> n >> m >> p;
+    vector<long long> a(n), b(m), bs(m + 1, 0);
+    for(int i = 0; i < n; i++){
+        cin >> a[i];
+    }
+    for(int i = 0; i < m; i++){
+        cin >> b[i];
+    }
+    sort(b.begin(), b.end());
+    for(int i = 0; i < m; i++){
+        bs[i+1] = bs[i] + b[i];
+    }
+
+    long long ans = 0;
+
+    for(int i = 0; i < n; i++){
+        long long t = p - a[i];
+        int pos = lower_bound(b.begin(), b.end(), t) - b.begin();
+        ans += bs[pos] + a[i] * pos;
+        ans += (m - pos) * p;
+    }
+
+    cout << ans << endl;
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/abc130/tasks/abc130_d" target="_blank">ABC130 D - Enough Array</a></h3>
+                    <div class="status-tags"><span class="tag tag-ac">AC</span><span class="tag tag-difficulty" style="background-color: #5cb85c;">緑</span></div>
+                    <p><strong>考えたことなど：</strong><br>
+                    まず、aの累積和を取る。そして、a[i]を起点に、a[it] - a[i] >= Kとなる最小のitを二分探索によって求める。N-itの総和が答えとなる。所謂尺取り法の解き方。</p>
+                    <p><a href="https://atcoder.jp/contests/abc130/submissions/75695508" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include <bits/stdc++.h>
+using namespace std;
+vector<int> c(1000009);
+int main() {
+    int n;
+    long long k;
+    cin >> n >> k;
+    vector<long long> a(n), s(n + 1, 0);
+    for(int i = 0; i < n; i++){
+        cin >> a[i];
+        s[i+1] = s[i] + a[i];
+    }
+    long long count = 0;
+
+    for(int l = 0; l <= n; l++){
+        int r = lower_bound(s.begin(), s.end(), s[l] + k) - s.begin();
+        if(r <= n){
+            count += n - r + 1;
+        }
+    }
+    
+    cout << count << endl;
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/abc106/tasks/abc106_d" target="_blank">ABC106 D - AtCoder Express 2</a></h3>
+                    <div class="status-tags"><span class="tag tag-wa">解説AC</span><span class="tag tag-difficulty" style="background-color: #4169e1;">水</span></div>
+                    <p><strong>考えたこと：</strong><br>
+                    制約が500程度ということから、500*500の二次元配列Gを形成することができる。一次元目をl、二次元目をrとしたとき、まず、liとriを入力し、G[li][ri]++をする。そして、一次元目はlがnから0に向けて、二次元目はrが0からnに向けて累積和を取る。この時G[pi][qi]が答えとなる。</p>
+                    <p><a href="https://atcoder.jp/contests/abc106/submissions/75696824" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    int n, m, q;
+    cin >> n >> m >> q;
+    vector<vector<int>> g(n, vector<int>(n, 0));
+    for(int i = 0; i < m; i++){
+        int l, r;
+        cin >> l >> r;
+        g[l-1][r-1]++;
+    }
+
+    for(int i = n-2; i >= 0; i--){
+        for(int j = 0; j < n; j++){
+            g[i][j] += g[i+1][j];
+        }
+    }
+
+    for(int j = 1; j < n; j++){
+        for(int i = 0; i < n; i++){
+            g[i][j] += g[i][j-1];
+        }
+    }
+
+    for(int i = 0; i < q; i++){
+        int l, r;
+        cin >> l >> r;
+        cout << g[l-1][r-1] << endl;
+    }
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/abc105/tasks/abc105_d" target="_blank">ABC105 D - Candy Distribution</a></h3>
+                    <div class="status-tags"><span class="tag tag-wa">解説AC</span><span class="tag tag-difficulty" style="background-color: #4169e1;">水</span></div>
+                    <p><strong>考えたこと：</strong><br>
+                    やたらと難しかった気がする。。。Aiの累積和を取り、mで割った余りを求める。そして、このあまりについてmapにその数を保存する。最後にmapを全探索して、その組み合わせを答えに足していくことでACすることができる。</p>
+                    <p><a href="https://atcoder.jp/contests/abc105/submissions/75703265" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    long long n, m;
+    cin >> n >> m;
+    vector<long long> a(n), s(n+1, 0);
+    for(int i = 0; i < n; i++){
+        cin >> a[i];
+    }
+    map<long long, long long> mp;
+    mp[0] = 1;
+    for(int i = 1; i <= n; i++){
+        s[i] = s[i-1] + a[i-1];
+        mp[s[i] % m]++;
+    }
+
+    long long ans = 0;
+
+    for (auto it = mp.begin(); it != mp.end(); ++it) {
+        long long t = it->second;
+        ans += t * (t - 1) / 2;
+    }
+
+    cout << ans << endl;
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/abc014/tasks/abc014_3" target="_blank">ABC014 C - AtColor</a></h3>
+                    <div class="status-tags"><span class="tag tag-ac">AC</span><span class="tag tag-difficulty" style="background-color: #4169e1;">水</span></div>
+                    <p><strong>考えたこと：</strong><br>
+                    n件についていもす法を実施し、その配列の最大値が答えになる。1,000,000という制約があったので間に合うか微妙だったけど、割と余裕がありました。</p>
+                    <p><a href="https://atcoder.jp/contests/abc014/submissions/75695136" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include <bits/stdc++.h>
+using namespace std;
+vector<int> c(1000009);
+int main() {
+    int n;
+    cin >> n;
+    vector<int> a(n), b(n);
+    for(int i = 0; i < n; i++){
+        cin >> a[i] >> b[i];
+        c[a[i]]++;
+        c[b[i]+1]--;
+    }
+    int ans = 0;
+
+    ans = max(ans, c[0]);
+
+    for(int i = 1; i < 1000001; i++){
+        c[i] += c[i-1];
+        ans = max(ans, c[i]);
+    }
+
+    cout << ans << endl;
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/abc017/tasks/abc017_3" target="_blank">ABC017 C - ハイスコア</a></h3>
+                    <div class="status-tags"><span class="tag tag-wa">解説AC</span><span class="tag tag-difficulty" style="background-color: #0000ff;">青</span></div>
+                    <p><strong>考えたことなど：</strong><br>
+                    初めての青diffAC(解説だけど)。スコアの理論値から、宝石iを含む遺跡のスコアの差を取る。Scoresum - Scorei。これの最大値が答えとなる。問題はぱっと見難しそうだが、やっていることは余事象を取るみたいな考え方に近い。</p>
+                    <p><a href="https://atcoder.jp/contests/abc017/submissions/75704505" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    int n, m;
+    cin >> n >> m;
+    vector<long long> g(m+2, 0);
+    long long s = 0;
+    for(int i = 0; i < n; i++){
+        int l, r, sc;
+        cin >> l >> r >> sc;
+        s += sc;
+        g[l] += sc;
+        g[r+1] -= sc;
+    }
+
+    long long mi = (1 << 30);
+
+    for(int i = 1; i < m+2; i++){
+        g[i] += g[i-1];
+    }
+
+    for(int i = 1; i <= m; i++){
+        mi = min(mi, g[i]);
+    }
+
+    cout << s - mi << endl;
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section id="thoughts" class="problem-content">
+                    <h2>本日の総括</h2>
+                    <p>
+                        青！！！青diffAC！！！<br>
+                        古い問題でdiffが高く表示されがちとはいえ、その辺の茶色コーダーである私にとって非常に大きな快挙だと思います。<br>
+                        累積和orいもす法と二分探索の組み合わせって意外と多いんですねー勉強になりました。<br>
+                        今週はいろんなアルゴリズムに触って苦手分野や知らない分野つぶしに行きたいと思います。<br>
+                        ただ、非常に数学が苦手なもので。。。そこがどうなるか。。。
+                    </p>
+                </section>
+
+                <div id="profile-placeholder"></div>
+            </article>
+        </main>
+    </div>
+
+    <div id="footer-placeholder"></div>
+
+</body>
+</html>
