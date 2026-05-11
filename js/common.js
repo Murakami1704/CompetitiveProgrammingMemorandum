@@ -9,19 +9,21 @@ const components = {
 
     // プロフィール：引数で受け取ったパスを反映させる
     getProfile: (iconPath) => `
-        <div class="writer-profile" style="display: flex; align-items: center; gap: 20px; padding: 20px; background: #f9f9f9; border-radius: 10px; border: 1px solid #eee;">
-            <div class="writer-icon" style="flex-shrink: 0;">
-                <img src="${iconPath}" alt="Writer Icon" style="width: 80px; height: 80px; border-radius: 10px; object-fit: cover; border: 2px solid #333;">
-            </div>
-            <div class="writer-info">
-                <h4 style="margin: 0; font-size: 1.2em; color: #333;">Writer: Murakami1704</h4>
-                <p style="margin: 5px 0; color: #666; font-size: 0.9em;">死が無い高専生(5年)</p>
-                <p style="margin: 0; line-height: 1.5;">
-                    プログラムが好きな人。最近制御に興味がある。(研究室は制御系)
-                </p>
-            </div>
+    <div class="writer-profile" style="display: flex; align-items: center; gap: 20px; padding: 20px; background: #f9f9f9; border-radius: 10px; border: 1px solid #eee;">
+        <div class="writer-icon" style="flex-shrink: 0;">
+            <img src="${iconPath}" alt="Writer Icon" style="width: 80px; height: 80px; border-radius: 10px; object-fit: cover; border: 2px solid #333;">
         </div>
-    `,
+        <div class="writer-info">
+            <h4 style="margin: 0; font-size: 1.2em; color: #333;">
+                Writer: <a href="https://murakami1704.github.io/portfolioMurakami1704/" target="_blank" rel="noopener noreferrer" style="color: #333; text-decoration: none; border-bottom: 1px solid #333;">Murakami1704</a>
+            </h4>
+            <p style="margin: 5px 0; color: #666; font-size: 0.9em;">死が無い高専生(5年)</p>
+            <p style="margin: 0; line-height: 1.5;">
+                プログラムが好きな人。最近制御に興味がある。(研究室は制御系)
+            </p>
+        </div>
+    </div>
+`,
 
     // 共通フッター
     footer: `

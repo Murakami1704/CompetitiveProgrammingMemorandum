@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>精選問題日記20260511 - 競技プログラミング備忘録</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/common.js" defer></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+      };
+    </script>
+</head>
+<body>
+
+    <div id="header-placeholder"></div>
+    <div id="nav-placeholder"></div>
+
+    <div class="container">
+        <main>
+            <article>
+                <h1>精選問題日記：答え二分探索 2026/05/11(月)</h1>
+                <p>本日は、苦手意識のあったアルゴリズム「答え二分探索」に集中的に取り組みました。典型的な茶色問題から、工夫が必要な水・青色問題まで幅広く触れることができ、非常に実りのある一日でした。</p>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/abc365/tasks/abc365_c" target="_blank">ABC365 C - Transportation Expenses</a></h3>
+                    <div class="status-tags"><span class="tag tag-ac">AC</span><span class="tag tag-difficulty" style="background-color: #808080;">灰</span></div>
+                    <p><strong>考えたことなど：</strong><br>
+                    答え二分探索の教科書的な問題。$A_i$ の総和を求めて、まずこれが $M$ よりも小さかったら無限（infinite）、そうでなかった時に交通費補助額の上限額について二分探索を行うことで解ける。</p>
+                    <p><a href="https://atcoder.jp/contests/abc365/submissions/75720001" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    long long n, m;
+    cin >> n >> m;
+    vector<long long> a(n);
+    long long total = 0;
+    for(int i = 0; i < n; i++){
+        cin >> a[i];
+        total += a[i];
+    }
+
+    if(total <= m){
+        cout << "infinite" << endl;
+        return 0;
+    }
+
+    long long low = 0, high = 2e14;
+    while(abs(low - high) > 1){
+        long long mid = (low + high) / 2;
+        long long temp = 0;
+        for(int i = 0; i < n; i++){
+            temp += min(mid, a[i]);
+        }
+
+        if(temp <= m){
+            low = mid;
+        }
+        else {
+            high = mid;
+        }
+    }
+
+    cout << low << endl;
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/abc146/tasks/abc146_c" target="_blank">ABC146 C - Buy an Integer</a></h3>
+                    <div class="status-tags"><span class="tag tag-ac">AC</span><span class="tag tag-difficulty" style="background-color: #8B4513;">茶</span></div>
+                    <p><strong>考えたことなど：</strong><br>
+                    これも答え二分探索の典型問題。$d(N)$ を求める方法は多岐にわたるが、今回は10で割っていって桁数を求める方法を採用。あとは予算内で買うことのできる最も大きい整数について二分探索することで答えに導ける。</p>
+                    <p><a href="https://atcoder.jp/contests/abc146/submissions/75720245" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    long long a, b, x;
+    cin >> a >> b >> x;
+
+    long long low = 0, high = 1e9 + 1;
+    while(high - low > 1){
+        long long mid = (low + high) / 2;
+        long long keta = 0, temp = mid;
+        while(temp != 0){
+            temp /= 10;
+            keta++;
+        }
+
+        if(a * mid + b * keta <= x){
+            low = mid;
+        }
+        else {
+            high = mid;
+        }
+    }
+
+    cout << low << endl;
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/abc319/tasks/abc319_d" target="_blank">ABC319 D - Minimum Width</a></h3>
+                    <div class="status-tags"><span class="tag tag-wa">解説AC</span><span class="tag tag-difficulty" style="background-color: #8B4513;">茶</span></div>
+                    <p><strong>考えたことなど：</strong><br>
+                    答え二分探索の典型。判定部分の貪欲法で手間取ってしまい、4回ほどWAを出してしまった。基本的な処理こそ丁寧に行う必要があると痛感。</p>
+                    <p><a href="https://atcoder.jp/contests/abc319/submissions/75723858" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    int n, m;
+    cin >> n >> m;
+    vector<long long> a(n);
+    long long s = 0, ma = 0;;
+    for(int i = 0; i < n; i++){
+        cin >> a[i];
+        s += a[i];
+        ma = max(ma, a[i]);
+    }
+
+    long long low = ma - 1, high = s + n - 1;
+    while(high - low > 1){
+        long long mid = (low + high) / 2;
+
+        int row = 1;
+        long long l = 0;
+        for(int i = 0; i < n; i++){
+            if(l == 0){
+                l = a[i];
+            }
+            else if(l + 1 + a[i] <= mid){
+                l += 1 + a[i];
+            }
+            else{
+                row++;
+                l = a[i];
+            }
+        }
+
+        if(row > m){
+            low = mid;
+        }
+        else {
+            high = mid;
+        }
+    }
+
+    cout << high << endl;
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/abc174/tasks/abc174_e" target="_blank">ABC174 E - Logs</a></h3>
+                    <div class="status-tags"><span class="tag tag-wa">解説AC</span><span class="tag tag-difficulty" style="background-color: #4169e1;">水</span></div>
+                    <p><strong>考えたことなど：</strong><br>
+                    一見どうすればいいかわからない、少しひねった問題に見えるが、丸太の「長さ」について二分探索すればよい。各丸太を目標の長さ以下にするために必要なカット回数を合計し、それが $K$ 回以内か判定する。</p>
+                    <p><a href="https://atcoder.jp/contests/abc174/submissions/75725143" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    long long n, k, m;
+    cin >> n >> k;
+    vector<long long> a(n);
+    for(int i = 0; i < n; i++){
+        cin >> a[i];
+        m = max(m, a[i]);
+    }
+
+    long long low = 0, high = m;
+    while(high - low > 1){
+        long long mid = (high + low) / 2;
+        long long count = 0;
+        for(int i = 0; i < n; i++){
+            count += (a[i] - 1) / mid;
+        }
+
+        if(count <= k){
+            high = mid;
+        }
+        else {
+            low = mid;
+        }
+    }
+
+    cout << high << endl;
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/abc227/tasks/abc227_d" target="_blank">ABC227 D - Project Planning</a></h3>
+                    <div class="status-tags"><span class="tag tag-wa">解説AC</span><span class="tag tag-difficulty" style="background-color: #0000ff;">青</span></div>
+                    <p><strong>考えたことなど：</strong><br>
+                    答え二分探索の雰囲気を感じることはできたが、判定式が思い浮かばず解説を読了。初見でこの判定ロジックを思いつくにはまだ修行が必要。また、この問題で <code>__int128</code> の存在を初めて知った。<code>long long</code> を超える範囲を扱える武器が増えたのは大きい。</p>
+                    <p><a href="https://atcoder.jp/contests/abc227/submissions/75729440" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    long long n, k;
+    cin >> n >> k;
+    vector<long long> a(n);
+    for(int i = 0; i < n; i++){
+        cin >> a[i];
+    }
+
+    long long low = 0, high = 1e18;
+    while(high - low > 1){
+        long long mid = (low + high) / 2;
+        __int128 sum = 0;
+        for(int i = 0; i < n; i++){
+            sum += min(a[i], mid);
+        }
+        if(sum >= (__int128)mid * k){
+            low = mid;
+        }
+        else {
+            high = mid;
+        }
+    }
+
+    cout << low << endl;
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section class="problem-content">
+                    <h3><a href="https://atcoder.jp/contests/abc457/tasks/abc457_d" target="_blank">ABC457 D - Raise Minimum</a></h3>
+                    <div class="status-tags"><span class="tag tag-ac">AC</span><span class="tag tag-difficulty" style="background-color: #8B4513;">茶</span></div>
+                    <p><strong>考えたことなど：</strong><br>
+                    先週のABCで歯が立たず、宿敵としていた問題をついに撃破！答え二分探索を知っていれば比較的余裕を持って解ける典型的な問題だった。ただし、計算の過程で <code>long long</code> を超えるため <code>__int128</code> で記述。出力時には <code>long long</code> にキャストするなどの工夫が必要だった。</p>
+                    <p><a href="https://atcoder.jp/contests/abc457/submissions/75730047" target="_blank">View Code on AtCoder</a></p>
+                    <details>
+                        <summary>コードを表示</summary>
+                        <pre><code>#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    long long n, k;
+    cin >> n >> k;
+    vector<long long> a(n);
+    for(int i = 0; i < n; i++){
+        cin >> a[i];
+    }
+
+    __int128 low = 0, high = 1e30;
+    while(high - low > 1){
+        long long mid = (low + high) / 2;
+        
+        __int128 count = 0;
+        for(long long i = 0; i < n; i++){
+            if(mid >= a[i]){
+                count += (mid - a[i] + i) / (i + 1);
+            }
+        }
+
+        if(count > k){
+            high = mid;
+        }
+        else {
+            low = mid;
+        }
+    }
+
+    cout << (long long)low << endl;
+    return 0;
+}</code></pre>
+                    </details>
+                </section>
+
+                <section id="thoughts" class="problem-content">
+                    <h2>本日の総括</h2>
+                    <p>今日は「答え二分探索」に集中して取り組みました。水色や青色の難易度にも触れられたことは自信に繋がります。今後は茶色難易度の問題で更なる安定感を出しつつ、他のアルゴリズムもバランスよく履修していきたいです。</p>
+                </section>
+
+                <div id="profile-placeholder"></div>
+            </article>
+        </main>
+    </div>
+
+    <div id="footer-placeholder"></div>
+
+</body>
+</html>
